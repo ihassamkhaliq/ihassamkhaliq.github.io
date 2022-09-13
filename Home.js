@@ -96,6 +96,7 @@
     }
 
     async function call() {
+        console.log("================================================================")
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
