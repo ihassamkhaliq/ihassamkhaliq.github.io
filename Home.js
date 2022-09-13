@@ -119,13 +119,13 @@
 
     }
 
-    const token = localStorage.getItem("JWT")
-    console.log("this is token", token)
-    if (token === "null") {
-        return
-    } else {
-        location.assign('/users.html')
-    } 
+    // const token = localStorage.getItem("JWT")
+    // console.log("this is token", token)
+    // if (token === "null") {
+    //     return
+    // } else {
+    //     location.assign('/users.html')
+    // } 
 
     function displaySelectedText() {
         Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
