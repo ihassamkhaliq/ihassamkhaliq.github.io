@@ -156,7 +156,7 @@
 
                                                         document.getElementById("message").innerHTML += `<div class="success-msg">
                                                     <i class="fa fa-check"></i>
-                                                    Rule : ${rule.name} threshold is not breached 
+                                                    Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
                                                     </div>`
 
                                                         // Queue a command to search the document and ignore punctuation.
@@ -184,7 +184,7 @@
 
                                                         document.getElementById("message").innerHTML += `<div class="error-msg">
                                                     <i class="fa fa-times-circle"></i>
-                                                    Rule : ${rule.name} threshold is breached 
+                                                    Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
                                                     </div>`
 
                                                         // Queue a command to search the document and ignore punctuation.
