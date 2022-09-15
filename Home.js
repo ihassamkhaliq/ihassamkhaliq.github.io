@@ -59,10 +59,14 @@
     const token = localStorage.getItem("JWT")
     console.log("this is token", token)
     if (token === "null") {
+        console.log("I'm in the null")
         return
     }else if(token === "undefined"){
-       return
+        console.log("I'm at the undefined")
+        return
     } else{
+        
+        console.log("I'm at the else part of Home")
         location.assign('/users.html')
     }
 
