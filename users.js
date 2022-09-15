@@ -45,11 +45,7 @@
     if(token == "undefined"){
         console.log("I'm at the undefined of users side")
         location.assign("/Home.html")
-    }else if(token == null){
-        console.log("I'm null from users side")
-        location.assign("/Home.html")
     }
-
     //Will bring Data for Get Calls
 
     async function getData(url) {
