@@ -50,7 +50,6 @@
         })
         const token = await getCall.json();
         console.log("This is Token ====>>>",token)
-        console.log("This is Token ====>>>",typeof(token))
         localStorage.setItem("JWT", token.token);
         const userDetails = token.user.id;
         localStorage.setItem("userDetail", userDetails);
