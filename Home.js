@@ -61,7 +61,7 @@
     if (token === null) {
         return
     }else if(token === "null"){
-
+        return
     }
     else if(token === "undefined"){
         return
