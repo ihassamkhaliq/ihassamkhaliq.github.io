@@ -42,6 +42,13 @@
     console.log("This is Token ====>>>",typeof(token))
     const userDetail = localStorage.getItem("userDetail")
 
+    if(token === "undefined"){
+        console.log("I'm at the undefined of users side")
+        location.assign("/Home.html")
+    }else if(token === null){
+        location.assign("/Home.html")
+    }
+
     //Will bring Data for Get Calls
 
     async function getData(url) {
@@ -105,13 +112,6 @@
         })
     }
 
-
-    if(token === "undefined"){
-        console.log("I'm at the undefined of users side")
-        location.assign("/Home.html")
-    }else if(token === null){
-        location.assign("/Home.html")
-    }
 
     function logout() {
         console.log("I'm in the Logout Function")
