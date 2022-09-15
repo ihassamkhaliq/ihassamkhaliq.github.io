@@ -39,6 +39,7 @@
 
     const token = localStorage.getItem("JWT")
     console.log("users side tokens ====>>>>",token)
+    console.log("This is Token ====>>>",typeof(token))
     const userDetail = localStorage.getItem("userDetail")
 
     //Will bring Data for Get Calls
