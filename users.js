@@ -21,7 +21,6 @@
 
 
             // Add a click event handler for the highlight button.
-            $('#call').click(functionality);
             $('#logout').click(logout);
 
             
@@ -31,8 +30,6 @@
     };
     // The initialize function must be run each time a new page is loaded.
 
-
-    console.log("office====>>>>",Office)
 
     setInterval(function () {
         functionality() 
