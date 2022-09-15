@@ -107,6 +107,10 @@
     }
 
 
+    if(token === "undefined"){
+        location.assign("/Home.html")
+    }
+
     function logout() {
         console.log("I'm in the Logout Function")
         localStorage.setItem("JWT", null)

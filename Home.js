@@ -59,9 +59,9 @@
     const token = localStorage.getItem("JWT")
     console.log("this is token", token)
     if (token=== "null") {
-        location.assign('/Home.html')
+        return
     }else if(token === "undefined"){
-        location.assign('/Home.html')
+       return
     } else{
         location.assign('/users.html')
     }
