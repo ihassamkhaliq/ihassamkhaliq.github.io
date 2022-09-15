@@ -58,8 +58,7 @@
     }
 
     const token = localStorage.getItem("JWT")
-    if (token === "null") {
-        console.log("I'm in the null")
+    if (token === null) {
         return
     }else if(token === "undefined"){
         return
