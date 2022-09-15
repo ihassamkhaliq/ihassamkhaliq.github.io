@@ -50,19 +50,17 @@
         })
         const token = await getCall.json();
         localStorage.setItem("JWT", token.token);
-        const tenantInfo = token.user;
         const userDetails = token.user.id;
         localStorage.setItem("userDetail", userDetails);
-        const userId = localStorage.getItem("userDetail")
         location.assign('/users.html')
 
     }
 
     const token = localStorage.getItem("JWT")
     console.log("this is token", token)
-    if (!token) {
+    if (token=== "null") {
         location.assign('/Home.html')
-    }else {
+    }else if(token === "undefined"){
         location.assign('/users.html')
     } 
 
