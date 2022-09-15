@@ -109,6 +109,8 @@
     if(token === "undefined"){
         console.log("I'm at the undefined of users side")
         location.assign("/Home.html")
+    }else if(token === null){
+        location.assign("/Home.html")
     }
 
     function logout() {
