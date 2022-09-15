@@ -28,13 +28,13 @@
             $('#button1-text').text("Call Api");
             $('#button-desc').text("Highlights the longest word.");
 
-            $('#call').click(call);
+            $('#login').click(login);
 
 
         });
     };
 
-    async function call() {
+    async function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
