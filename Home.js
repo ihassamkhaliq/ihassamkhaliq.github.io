@@ -60,7 +60,10 @@
     const token = localStorage.getItem("JWT")
     if (token === null) {
         return
-    }else if(token === "undefined"){
+    }else if(token === "null"){
+
+    }
+    else if(token === "undefined"){
         return
     } else{
         location.assign('/users.html')
