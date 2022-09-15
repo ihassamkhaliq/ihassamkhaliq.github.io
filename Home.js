@@ -28,75 +28,13 @@
             $('#button1-text').text("Call Api");
             $('#button-desc').text("Highlights the longest word.");
 
-            loadSampleData();
-
-            // Add a click event handler for the highlight button.
-            $('#highlight-button').click(hightlightLongestWord);
             $('#call').click(call);
 
 
         });
     };
 
-    function loadSampleData() {
-        // Run a batch operation against the Word object model.
-        Word.run(function (context) {
-            // Create a proxy object for the document body.
-            var body = context.document.body;
-            // Queue a commmand to clear the contents of the body.
-            body.clear();
-            // Queue a command to insert text into the end of the Word document body.
-            body.insertText(
-                "This is a sample text inserted in the document",
-                Word.InsertLocation.end);
-
-            // Synchronize the document state by executing the queued commands, and return a promise to indicate task completion.
-            return context.sync();
-        })
-            .catch(errorHandler);
-    }
-
-
-
-    function hightlightLongestWord() {
-        Word.run(function (context) {
-            // Queue a command to get the current selection and then
-            // create a proxy range object with the results.
-            var range = context.document.getSelection();
-
-            // This variable will keep the search results for the longest word.
-            var searchResults;
-
-            // Queue a command to load the range selection result.
-            context.load(range, 'text');
-
-            // Synchronize the document state by executing the queued commands
-            // and return a promise to indicate task completion.
-            return context.sync()
-                .then(function () {
-                    // Get the longest word from the selection.
-                    var words = range.text.split(/\s+/);
-                    var longestWord = words.reduce(function (word1, word2) { return word1.length > word2.length ? word1 : word2; });
-
-                    // Queue a search command.
-                    searchResults = range.search(longestWord, { matchCase: true, matchWholeWord: true });
-
-                    // Queue a commmand to load the font property of the results.
-                    context.load(searchResults, 'font');
-                })
-                .then(context.sync)
-                .then(function () {
-                    // Queue a command to highlight the search results.
-                    searchResults.items[0].font.highlightColor = '#FFFF00'; // Yellow
-                    searchResults.items[0].font.bold = true;
-                })
-                .then(context.sync);
-        })
-            .catch(errorHandler);
-    }
-
     async function call() {
-        console.log("================================================================")
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
@@ -120,13 +58,13 @@
 
     }
 
-    // const token = localStorage.getItem("JWT")
-    // console.log("this is token", token)
-    // if (token === "null") {
-    //     return
-    // } else {
-    //     location.assign('/users.html')
-    // } 
+    const token = localStorage.getItem("JWT")
+    console.log("this is token", token)
+    if (token === "null") {
+        return
+    } else {
+        location.assign('/users.html')
+    } 
 
     function displaySelectedText() {
         Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
