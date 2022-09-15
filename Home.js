@@ -61,8 +61,10 @@
     if (token=== "null") {
         location.assign('/Home.html')
     }else if(token === "undefined"){
+        location.assign('/Home.html')
+    } else{
         location.assign('/users.html')
-    } 
+    }
 
     function displaySelectedText() {
         Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
