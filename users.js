@@ -3,6 +3,8 @@
 
 (async function () {
 
+
+    await Office.addin.setStartupBehavior(Office.StartupBehavior.load);
     Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
     Office.context.document.settings.saveAsync();
 
@@ -22,6 +24,10 @@
                 return;
             }
 
+            setInterval(function () {
+                functionality() 
+            }, 5000);
+            
             // Add a click event handler for the highlight button.
             $('#logout').click(logout);
 
@@ -33,9 +39,7 @@
 
 
 
-    setInterval(function () {
-        functionality() 
-    }, 5000);
+ 
 
     // Getting User Data
 
