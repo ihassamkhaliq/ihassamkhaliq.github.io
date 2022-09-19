@@ -34,6 +34,9 @@
         });
     };
 
+    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+    Office.context.document.settings.saveAsync();
+
     async function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;

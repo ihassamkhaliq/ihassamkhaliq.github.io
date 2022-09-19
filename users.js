@@ -19,16 +19,16 @@
                 return;
             }
 
-
             // Add a click event handler for the highlight button.
             $('#logout').click(logout);
-
-            
-
 
         });
     };
     // The initialize function must be run each time a new page is loaded.
+
+
+    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+    Office.context.document.settings.saveAsync();
 
 
     setInterval(function () {
