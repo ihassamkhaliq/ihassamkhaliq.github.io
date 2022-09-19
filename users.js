@@ -3,6 +3,9 @@
 
 (async function () {
 
+    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+    Office.context.document.settings.saveAsync();
+
     var messageBanner;
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -27,8 +30,7 @@
     // The initialize function must be run each time a new page is loaded.
 
 
-    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-    Office.context.document.settings.saveAsync();
+
 
 
     setInterval(function () {
