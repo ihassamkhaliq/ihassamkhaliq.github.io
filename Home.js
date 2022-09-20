@@ -2,7 +2,6 @@
 (async function () {
     
     
-    await Office.addin.setStartupBehavior(Office.StartupBehavior.load);
     var messageBanner;
     Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
     Office.context.document.settings.saveAsync(); 
