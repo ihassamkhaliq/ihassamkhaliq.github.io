@@ -20,14 +20,13 @@
             // If not using Word 2016, use fallback logic.
             if (!Office.context.requirements.isSetSupported('WordApi', '1.1')) {
                 console.log('Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office.');
-
                 return;
             }
 
             setInterval(function () {
                 functionality() 
             }, 5000);
-            
+
             // Add a click event handler for the highlight button.
             $('#logout').click(logout);
 
@@ -72,6 +71,9 @@
     // Get the Subscription of User
     const subscriptionDetail = await getData(`https://localhost:7018/tenant/${userDetail}/subscription/all`)
     const userSub = await subscriptionDetail.json();
+    if(userSub.status != 200){
+        location.assign('Home.html')
+    }
 
 
 
@@ -100,7 +102,7 @@
 
     async function functionality() {
 
-        userSub.forEach(element => {
+        userSub.subscription.forEach(element => {
 
             // This condition checks if the user is not on Trial
             if (element.isTrialSub === false) {
@@ -117,13 +119,6 @@
                 })
             }
         })
-    }
-
-
-    function logout() {
-        console.log("I'm in the Logout Function")
-        localStorage.setItem("JWT", null)
-        location.assign('/Home.html')
     }
 
     async function checks() {
@@ -246,7 +241,11 @@
         }
     }
 
-
+    function logout() {
+        console.log("I'm in the Logout Function")
+        localStorage.setItem("JWT", null)
+        location.assign('/Home.html')
+    }
 
     // Helper function for displaying notifications
     function showNotification(header, content) {

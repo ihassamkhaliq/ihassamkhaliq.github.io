@@ -25,11 +25,6 @@
                 return;
             }
 
-            $("#template-description").text("This sample highlights the longest word in the text you have selected in the document.");
-            $('#button-text').text("Highlight!");
-            $('#button1-text').text("Call Api");
-            $('#button-desc').text("Highlights the longest word.");
-
             $('#login').click(login);
 
 
@@ -53,11 +48,14 @@
             }
         })
         const token = await getCall.json();
-        console.log("This is Token ====>>>",token)
+        if(token.status === 200){
         localStorage.setItem("JWT", token.token);
         const userDetails = token.user.id;
         localStorage.setItem("userDetail", userDetails);
         location.assign('/users.html')
+    }else{
+        showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
+    }
 
     }
 
