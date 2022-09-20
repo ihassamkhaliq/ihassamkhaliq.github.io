@@ -75,9 +75,6 @@
         location.assign('Home.html')
     }
 
-
-
-
         // Get all the Rules
 
         const rulesDetail = await getData(`https://localhost:7018/rules`)
