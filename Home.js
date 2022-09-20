@@ -33,30 +33,36 @@
 
 
 
-    async function login() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
-            "method": "POST",
-            body: JSON.stringify({
-                email: email,
-                password: password
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        const token = await getCall.json();
-        if(token.status === 200){
-        localStorage.setItem("JWT", token.token);
-        const userDetails = token.user.id;
-        localStorage.setItem("userDetail", userDetails);
-        location.assign('/users.html')
-    }else{
-        showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
-    }
+    
 
+
+    async function login() {
+        try {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
+                "method": "POST",
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            const token = await getCall.json();
+            if(token.status === 200){
+            localStorage.setItem("JWT", token.token);
+            const userDetails = token.user.id;
+            localStorage.setItem("userDetail", userDetails);
+            location.assign('/users.html')
+        }else{
+            showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
+        }
+        } catch (error) {
+            showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
+        }
     }
 
     const token = localStorage.getItem("JWT")
