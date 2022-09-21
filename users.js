@@ -40,15 +40,11 @@
     // Getting User Data
 
     const token = localStorage.getItem("JWT")
-    console.log("users side tokens ====>>>>",token)
-    console.log("This is Token ====>>>",typeof(token))
     const userDetail = localStorage.getItem("userDetail")
 
     if(token === "undefined"){
-        console.log("I'm at the undefined of users side")
         location.assign("/Home.html")
     }else if(token === null){
-        console.log("I'm null from users side")
         location.assign("/Home.html")
     }
 
