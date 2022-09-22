@@ -16,8 +16,6 @@
                 $("#template-description").text("This sample displays the selected text.");
                 $('#button-text').text("Display!");
                 $('#button-desc').text("Display the selected text");
-
-                $('#highlight-button').click(displaySelectedText);
                 return;
             }
 
@@ -37,7 +35,7 @@
         try {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const getCall = await fetch("https://localhost:7018/tenant/Authenticate", {
+            const getCall = await fetch("https://localhost:7018/users/Authenticate", {
                 "method": "POST",
                 body: JSON.stringify({
                     email: email,
@@ -49,14 +47,12 @@
                 }
             })
             const token = await getCall.json();
-            if(token.status === 200){
             localStorage.setItem("JWT", token.token);
-            const userDetails = token.user.id;
-            localStorage.setItem("userDetail", userDetails);
+            const tenantId = token.user.tenantid;
+            const userId = token.user.id;
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("tenantId", tenantId);
             location.assign('/users.html')
-        }else{
-            showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
-        }
         } catch (error) {
             showNotification("Invalid Email","Your Email is incorrect please Sign up First Please!")
         }
@@ -72,27 +68,6 @@
         return
     } else{
         location.assign('/users.html')
-    }
-
-    function displaySelectedText() {
-        Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
-            function (result) {
-                if (result.status === Office.AsyncResultStatus.Succeeded) {
-                    showNotification('The selected text is:', '"' + result.value + '"');
-                } else {
-                    showNotification('Error:', result.error.message);
-                }
-            });
-    }
-
-    //$$(Helper function for treating errors, $loc_script_taskpane_home_js_comment34$)$$
-    function errorHandler(error) {
-        // $$(Always be sure to catch any accumulated errors that bubble up from the Word.run execution., $loc_script_taskpane_home_js_comment35$)$$
-        showNotification("Error:", error);
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-            console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
     }
 
 

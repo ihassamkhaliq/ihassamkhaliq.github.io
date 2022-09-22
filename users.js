@@ -40,7 +40,7 @@
     // Getting User Data
 
     const token = localStorage.getItem("JWT")
-    const userDetail = localStorage.getItem("userDetail")
+    const tenantId = localStorage.getItem("tenantId")
 
     if(token === "undefined"){
         location.assign("/Home.html")
@@ -62,7 +62,7 @@
     }
 
     // Get the Subscription of User
-    const subscriptionDetail = await getData(`https://localhost:7018/tenant/${userDetail}/subscription/all`)
+    const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
     const userSub = await subscriptionDetail.json();
     if(userSub.status != 200){
         location.assign('Home.html')
