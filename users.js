@@ -3,7 +3,6 @@
 
 (async function () {
     try {
-
     var messageBanner;
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -93,7 +92,7 @@
     
         async function functionality() {
     
-            userSub.subscription.forEach(element => {
+            userSub.forEach(element => {
     
                 // This condition checks if the user is not on Trial
                 if (element.isTrialSub === false) {
