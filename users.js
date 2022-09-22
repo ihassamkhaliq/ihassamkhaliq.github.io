@@ -2,7 +2,7 @@
 
 
 (async function () {
-
+    try {
 
     var messageBanner;
     Office.initialize = function (reason) {
@@ -64,7 +64,7 @@
     }
 
 
-    try {
+   
         const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
         const userSub = await subscriptionDetail.json();
     
@@ -221,10 +221,7 @@
                 })
             })
         }
-    } catch (error) {
-        localStorage.setItem("JWT",null)
-        location.assign('/Home.html')
-    }
+   
 
     // Get the Subscription of User
 
@@ -252,6 +249,9 @@
         $("#notification-body").text(content);
         messageBanner.showBanner();
         messageBanner.toggleExpansion();
+    } } catch (error) {
+        localStorage.setItem("JWT",null)
+        location.assign('/Home.html')
     }
 }
     ());
