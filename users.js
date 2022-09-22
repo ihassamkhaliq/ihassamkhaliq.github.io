@@ -43,8 +43,11 @@
     const tenantId = localStorage.getItem("tenantId")
 
     if(token === "undefined"){
+        console.log("I'm here")
+        console.log("I'm here")
         location.assign("/Home.html")
     }else if(token === null){
+        console.log("I'm here null")
         location.assign("/Home.html")
     }
 
