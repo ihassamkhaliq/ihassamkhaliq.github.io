@@ -6,8 +6,10 @@
 
     var messageBanner;
     Office.initialize = function (reason) {
-        $(document).ready(function () {
-            
+        $(document).ready(async function () {
+            await Office.addin.setStartupBehavior(Office.StartupBehavior.load);
+            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+            Office.context.document.settings.saveAsync();
             // Initialize the notification mechanism and hide it
             var element = document.querySelector('.MessageBanner');
             messageBanner = new components.MessageBanner(element);
@@ -19,9 +21,7 @@
                 return;
             }
 
-            setInterval(function () {
-                functionality() 
-            }, 5000);
+
 
             // Add a click event handler for the highlight button.
             $('#logout').click(logout);
@@ -30,11 +30,11 @@
     };
     // The initialize function must be run each time a new page is loaded.
 
-    await Office.addin.setStartupBehavior(Office.StartupBehavior.load);
-    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-    Office.context.document.settings.saveAsync();
+    
 
-
+    setInterval(function () {
+        functionality() 
+    }, 5000);
  
 
     // Getting User Data
