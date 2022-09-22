@@ -222,6 +222,7 @@
             })
         }
     } catch (error) {
+        localStorage.setItem("JWT",null)
         location.assign('/Home.html')
     }
 
