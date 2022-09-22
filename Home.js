@@ -7,6 +7,9 @@
     Office.initialize = function (reason) {
         $(document).ready(function () {
             // Initialize the notification mechanism and hide it
+            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+            Office.context.document.settings.saveAsync(); 
+
             var element = document.querySelector('.MessageBanner');
             messageBanner = new components.MessageBanner(element);
             messageBanner.hideBanner();
@@ -24,12 +27,7 @@
 
         });
     };
-
-
-    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-    Office.context.document.settings.saveAsync(); 
     
-
 
     async function login() {
         try {
