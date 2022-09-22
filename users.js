@@ -6,8 +6,7 @@
 
     var messageBanner;
     Office.initialize = function (reason) {
-        $(document).ready(async function () {
-            await Office.addin.setStartupBehavior(Office.StartupBehavior.load);
+        $(document).ready(function () {
             Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
             Office.context.document.settings.saveAsync();
             // Initialize the notification mechanism and hide it
