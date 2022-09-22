@@ -1,8 +1,5 @@
 ﻿
-
-
 (async function () {
-    try {
     var messageBanner;
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -248,9 +245,5 @@
         $("#notification-body").text(content);
         messageBanner.showBanner();
         messageBanner.toggleExpansion();
-    } } catch (error) {
-        localStorage.setItem("JWT",null)
-        location.assign('/Home.html')
-    }
-}
+    } } 
     ());
