@@ -14,8 +14,6 @@
                 return;
             }
 
-            getInfo()
-
             // Add a click event handler for the highlight button.
             $('#goBack').click(goback);
 
@@ -92,8 +90,8 @@
             const keywordsDetail = await getData(`https://localhost:7018/keywords`)
             const keywordsInfo = await keywordsDetail.json();
     
-    
-        async function getInfo() {
+            getInfo()
+            function getInfo() {
     
             userSub.forEach(subscription => {
     
