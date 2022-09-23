@@ -98,7 +98,7 @@
                 // This condition checks if the user is not on Trial
                 if (subscription.isTrialSub === false) {
                     document.getElementById("subscription").innerHTML = "";
-                    document.getElementById("subscription") += `<table class="styled-table">
+                    document.getElementById("subscription").innerHTML += `<table class="styled-table">
                     <thead>
                         <tr>
                             <th>Sub Name</th>
@@ -126,7 +126,7 @@
                     document.getElementById("dictionary").innerHTML = "";
                     document.getElementById("detectors").innerHTML = "";
                     document.getElementById("keywords").innerHTML = "";
-                    document.getElementById("subscription") += `<table class="styled-table">
+                    document.getElementById("subscription").innerHTML += `<table class="styled-table">
                                                         <thead>
                                                             <tr>
                                                                 <th>Sub Name</th>
@@ -150,7 +150,7 @@
                                     if (detector.id === dictionary.detectorsid) {
                                         keywordsInfo.forEach(keyword => {
                                             if (dictionary.id === keyword.dictionaryid) {
-                                                document.getElementById("rules") += `<table class="styled-table">
+                                                document.getElementById("rules").innerHTML += `<table class="styled-table">
                                                 <thead>
                                                     <tr>
                                                         <th>Rules Name</th>
@@ -162,7 +162,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>`
-                                            document.getElementById("detectors") += `<table class="styled-table">
+                                            document.getElementById("detectors").innerHTML += `<table class="styled-table">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -176,7 +176,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>`
-                                        document.getElementById("dictionary") += `<table class="styled-table">
+                                        document.getElementById("dictionary").innerHTML += `<table class="styled-table">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -188,7 +188,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>`
-                                        document.getElementById("kewywords") += `<table class="styled-table">
+                                        document.getElementById("kewywords").innerHTML += `<table class="styled-table">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -227,7 +227,7 @@
                             if (detector.id === dictionary.detectorsid) {
                                 keywordsInfo.forEach(keyword => {
                                     if (dictionary.id === keyword.dictionaryid) {
-                                        document.getElementById("rules") += `<table class="styled-table">
+                                        document.getElementById("rules").innerHTML += `<table class="styled-table">
                                         <thead>
                                             <tr>
                                                 <th>Rules Name</th>
@@ -239,7 +239,7 @@
                                             </tr>
                                         </tbody>
                                     </table>`
-                                    document.getElementById("detectors") += `<table class="styled-table">
+                                    document.getElementById("detectors").innerHTML += `<table class="styled-table">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -253,7 +253,7 @@
                                         </tr>
                                     </tbody>
                                 </table>`
-                                document.getElementById("dictionary") += `<table class="styled-table">
+                                document.getElementById("dictionary").innerHTML += `<table class="styled-table">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -265,7 +265,7 @@
                                         </tr>
                                     </tbody>
                                 </table>`
-                                document.getElementById("kewywords") += `<table class="styled-table">
+                                document.getElementById("kewywords").innerHTML += `<table class="styled-table">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
