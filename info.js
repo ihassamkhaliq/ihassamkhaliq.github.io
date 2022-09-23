@@ -58,7 +58,7 @@
     </thead>
     <tbody>
         <tr>
-            <td  class="active-row">${usertenant[0].POCName}</td>
+            <td  class="active-row">${usertenant[0].pocName}</td>
             <td>${usertenant[0].companyName}</td>
         </tr>
     </tbody>
