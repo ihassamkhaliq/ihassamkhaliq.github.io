@@ -58,8 +58,8 @@
     </thead>
     <tbody>
         <tr>
-            <td  class="active-row">${usertenant[0].pocName}</td>
-            <td>${usertenant[0].companyName}</td>
+            <td  class="active-row">${usertenant.pocName}</td>
+            <td>${usertenant.companyName}</td>
         </tr>
     </tbody>
 </table>`
