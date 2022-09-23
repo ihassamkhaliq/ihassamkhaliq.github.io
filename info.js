@@ -105,25 +105,25 @@
                 </tr>`
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
-                        detectorsInfo.forEach(detector => {
-                            if (rule.id === detector.rulesid) {
-                                dictionaryInfo.forEach(dictionary => {
-                                    if (detector.id === dictionary.detectorsid) {
-                                        keywordsInfo.forEach(keyword => {
-                                            if (dictionary.id === keyword.dictionaryid) {
-                                                document.getElementById("rulesRow").innerHTML += `<tr>
+                        document.getElementById("rulesRow").innerHTML += `<tr>
                                                 <td  class="active-row">${rule.name}</td>
                                             </tr>`
-                                            document.getElementById("detectorsRow").innerHTML += `                <tr>
-                                            <td  class="active-row">${detector.name}</td>
-                                            <td  class="active-row">${detector.threshold}</td>
-                                        </tr>`
-                                        document.getElementById("dictionary").innerHTML += `<tr>
+                        detectorsInfo.forEach(detector => {
+                            if (rule.id === detector.rulesid) {
+                                document.getElementById("detectorsRow").innerHTML += `                <tr>
+                                <td  class="active-row">${detector.name}</td>
+                                <td  class="active-row">${detector.threshold}</td>
+                            </tr>`
+                                dictionaryInfo.forEach(dictionary => {
+                                    if (detector.id === dictionary.detectorsid) {
+                                        document.getElementById("dictionaryRow").innerHTML += `<tr>
                                         <td  class="active-row">${dictionary.name}</td>
                                     </tr>`
+                                        keywordsInfo.forEach(keyword => {
+                                            if (dictionary.id === keyword.dictionaryid) {
                                         document.getElementById("keywordsRow").innerHTML += `<tr>
-                                        <td  class="active-row">${dictionary.name}</td>
-                                        <td  class="active-row">${dictionary.weight}</td>
+                                        <td  class="active-row">${keyword.name}</td>
+                                        <td  class="active-row">${keyword.weight}</td>
                                     </tr>`
                                             }
                                         })
@@ -140,25 +140,25 @@
     
         async function checks() {
             rulesInfo.forEach(rule => {
-                detectorsInfo.forEach(detector => {
-                    if (rule.id === detector.rulesid) {
-                        dictionaryInfo.forEach(dictionary => {
-                            if (detector.id === dictionary.detectorsid) {
-                                keywordsInfo.forEach(keyword => {
-                                    if (dictionary.id === keyword.dictionaryid) {
-                                        document.getElementById("rulesRow").innerHTML += `<tr>
+                document.getElementById("rulesRow").innerHTML += `<tr>
                                         <td  class="active-row">${rule.name}</td>
                                     </tr>`
-                                    document.getElementById("detectorsRow").innerHTML += ` <tr>
+                detectorsInfo.forEach(detector => {
+                    if (rule.id === detector.rulesid) {
+                        document.getElementById("detectorsRow").innerHTML += ` <tr>
                                     <td  class="active-row">${detector.name}</td>
                                     <td  class="active-row">${detector.threshold}</td>
                                 </tr>`
-                                document.getElementById("dictionary").innerHTML += `<tr>
+                        dictionaryInfo.forEach(dictionary => {
+                            if (detector.id === dictionary.detectorsid) {
+                                document.getElementById("dictionaryRow").innerHTML += `<tr>
                                 <td  class="active-row">${dictionary.name}</td>
                             </tr>`
+                                keywordsInfo.forEach(keyword => {
+                                    if (dictionary.id === keyword.dictionaryid) {
                                 document.getElementById("keywordsRow").innerHTML += `<tr>
-                                <td  class="active-row">${dictionary.name}</td>
-                                <td  class="active-row">${dictionary.weight}</td>
+                                <td  class="active-row">${keyword.name}</td>
+                                <td  class="active-row">${keyword.weight}</td>
                             </tr>`
                                     }
                                 })
