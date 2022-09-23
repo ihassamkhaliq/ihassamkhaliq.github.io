@@ -48,21 +48,10 @@
    
     const tenantDetail = await getData(`https://localhost:7018/tenant/${tenantId}`)
     const  usertenant = await tenantDetail.json();
-    document.getElementById("tenant").innerHTML = "";
-    document.getElementById("tenant").innerHTML += `<table class="styled-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Company Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td  class="active-row">${usertenant.pocName}</td>
-            <td>${usertenant.companyName}</td>
-        </tr>
-    </tbody>
-</table>`
+    document.getElementById("tenantRows").innerHTML += `<tr>
+    <td  class="active-row">${usertenant.pocName}</td>
+    <td>${usertenant.companyName}</td>
+</tr>`
 
 
         const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
@@ -97,23 +86,11 @@
     
                 // This condition checks if the user is not on Trial
                 if (subscription.isTrialSub === false) {
-                    document.getElementById("subscription").innerHTML = "";
-                    document.getElementById("subscription").innerHTML += `<table class="styled-table">
-                    <thead>
-                        <tr>
-                            <th>Sub Name</th>
-                            <th>Sub Owner</th>
-                            <th>Sub Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td  class="active-row">${subscription.name}</td>
-                            <td>${subscription.subOwner}</td>
-                            <td> On Trial </td>
-                        </tr>
-                    </tbody>
-                </table>`
+                    document.getElementById("subscriptionRows").innerHTML += `<tr>
+                    <td  class="active-row">${subscription.name}</td>
+                    <td>${subscription.subOwner}</td>
+                    <td> On Trial </td>
+                </tr>`
                         checks()
                 }
     
@@ -121,27 +98,11 @@
     
                 else {
                    
-                    document.getElementById("subscription").innerHTML = "";
-                    document.getElementById("rules").innerHTML = "";
-                    document.getElementById("detectors").innerHTML = "";
-                    document.getElementById("dictionary").innerHTML = "";
-                    document.getElementById("keywords").innerHTML = "";
-                    document.getElementById("subscription").innerHTML += `<table class="styled-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Sub Name</th>
-                                                                <th>Sub Owner</th>
-                                                                <th>Sub Type</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td  class="active-row">${subscription.name}</td>
-                                                                <td>${subscription.subOwner}</td>
-                                                                <td> On Trial </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>`
+                    document.getElementById("subscriptionRows").innerHTML += `<tr>
+                    <td  class="active-row">${subscription.name}</td>
+                    <td>${subscription.subOwner}</td>
+                    <td> On Trial </td>
+                </tr>`
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
                         detectorsInfo.forEach(detector => {
@@ -150,58 +111,20 @@
                                     if (detector.id === dictionary.detectorsid) {
                                         keywordsInfo.forEach(keyword => {
                                             if (dictionary.id === keyword.dictionaryid) {
-                                                document.getElementById("rules").innerHTML += `<table class="styled-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Rules Name</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td  class="active-row">${rule.name}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>`
-                                            document.getElementById("detectors").innerHTML += `<table class="styled-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Threshold</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td  class="active-row">${detector.name}</td>
-                                                    <td  class="active-row">${detector.threshold}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>`
-                                        document.getElementById("dictionary").innerHTML += `<table class="styled-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td  class="active-row">${dictionary.name}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>`
-                                        document.getElementById("kewywords").innerHTML += `<table class="styled-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Weight</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td  class="active-row">${dictionary.name}</td>
-                                                    <td  class="active-row">${dictionary.weight}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>`
+                                                document.getElementById("rulesRow").innerHTML += `<tr>
+                                                <td  class="active-row">${rule.name}</td>
+                                            </tr>`
+                                            document.getElementById("detectorsRow").innerHTML += `                <tr>
+                                            <td  class="active-row">${detector.name}</td>
+                                            <td  class="active-row">${detector.threshold}</td>
+                                        </tr>`
+                                        document.getElementById("dictionary").innerHTML += `<tr>
+                                        <td  class="active-row">${dictionary.name}</td>
+                                    </tr>`
+                                        document.getElementById("keywordsRow").innerHTML += `<tr>
+                                        <td  class="active-row">${dictionary.name}</td>
+                                        <td  class="active-row">${dictionary.weight}</td>
+                                    </tr>`
                                             }
                                         })
                                     }
@@ -216,10 +139,6 @@
         }
     
         async function checks() {
-            document.getElementById("rules").innerHTML = "";
-            document.getElementById("dictionary").innerHTML = "";
-            document.getElementById("detectors").innerHTML = "";
-            document.getElementById("keywords").innerHTML = "";
             rulesInfo.forEach(rule => {
                 detectorsInfo.forEach(detector => {
                     if (rule.id === detector.rulesid) {
@@ -227,58 +146,20 @@
                             if (detector.id === dictionary.detectorsid) {
                                 keywordsInfo.forEach(keyword => {
                                     if (dictionary.id === keyword.dictionaryid) {
-                                        document.getElementById("rules").innerHTML += `<table class="styled-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Rules Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td  class="active-row">${rule.name}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>`
-                                    document.getElementById("detectors").innerHTML += `<table class="styled-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Threshold</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td  class="active-row">${detector.name}</td>
-                                            <td  class="active-row">${detector.threshold}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>`
-                                document.getElementById("dictionary").innerHTML += `<table class="styled-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td  class="active-row">${dictionary.name}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>`
-                                document.getElementById("kewywords").innerHTML += `<table class="styled-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Weight</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td  class="active-row">${dictionary.name}</td>
-                                            <td  class="active-row">${dictionary.weight}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>`
+                                        document.getElementById("rulesRow").innerHTML += `<tr>
+                                        <td  class="active-row">${rule.name}</td>
+                                    </tr>`
+                                    document.getElementById("detectorsRow").innerHTML += ` <tr>
+                                    <td  class="active-row">${detector.name}</td>
+                                    <td  class="active-row">${detector.threshold}</td>
+                                </tr>`
+                                document.getElementById("dictionary").innerHTML += `<tr>
+                                <td  class="active-row">${dictionary.name}</td>
+                            </tr>`
+                                document.getElementById("keywordsRow").innerHTML += `<tr>
+                                <td  class="active-row">${dictionary.name}</td>
+                                <td  class="active-row">${dictionary.weight}</td>
+                            </tr>`
                                     }
                                 })
                             }
