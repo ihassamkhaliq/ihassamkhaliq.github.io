@@ -20,12 +20,15 @@
 
             // Add a click event handler for the highlight button.
             $('#logout').click(logout);
+            $('#info').click(info);
 
         });
     };
     // The initialize function must be run each time a new page is loaded.
 
-    
+    function info(){
+        location.assign('/info.html')
+    }
 
     setInterval(function () {
         functionality() 
