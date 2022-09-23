@@ -49,7 +49,7 @@
     const tenantDetail = await getData(`https://localhost:7018/tenant/${tenantId}`)
     const  usertenant = await tenantDetail.json();
     document.getElementById("tenant").innerHTML = "";
-    document.getElementById("tenant") += `<table class="styled-table">
+    document.getElementById("tenant").innerHTML += `<table class="styled-table">
     <thead>
         <tr>
             <th>Name</th>
