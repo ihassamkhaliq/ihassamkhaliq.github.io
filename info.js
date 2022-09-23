@@ -123,8 +123,8 @@
                    
                     document.getElementById("subscription").innerHTML = "";
                     document.getElementById("rules").innerHTML = "";
-                    document.getElementById("dictionary").innerHTML = "";
                     document.getElementById("detectors").innerHTML = "";
+                    document.getElementById("dictionary").innerHTML = "";
                     document.getElementById("keywords").innerHTML = "";
                     document.getElementById("subscription").innerHTML += `<table class="styled-table">
                                                         <thead>
