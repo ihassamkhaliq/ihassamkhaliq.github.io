@@ -105,12 +105,16 @@
                     document.getElementById("message").innerHTML = "";
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
+                        document.getElementById("message").innerHTML += `<div id="rules">
+                                                        <i id="icon"></i>
+                                                        Rule :"${rule.name}" threshold is not breached for keyword "<b id="keywords"></b>"
+                                                        </div>`
                         detectorsInfo.forEach(detector => {
                             if (rule.id === detector.rulesid) {
                                 dictionaryInfo.forEach(dictionary => {
                                     if (detector.id === dictionary.detectorsid) {
                                         let score = 0;
-                                        keywordsInfo.forEach(keyword => {
+                                        keywordsInfo.forEach((keyword, occurence) => {
                                             if (dictionary.id === keyword.dictionaryid) {
                                                 Word.run((context) => {
                                                     // Queue a command to get the current selection and then
@@ -140,11 +144,11 @@
 
                                                             if (detector.threshold > score) {
                                                                 await Word.run(async (context) => {
-
-                                                                    document.getElementById("message").innerHTML += `<div class="success-msg">
-                                                        <i class="fa fa-check"></i>
-                                                        Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
-                                                        </div>`
+                                                                    let element = document.getElementById("rules");
+                                                                    element.classList.add("success-msg");
+                                                                    let ruleIcon = document.getElementById("icon");
+                                                                    ruleIcon.classList.add("fa fa-check")
+                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
 
                                                                     // Queue a command to search the document and ignore punctuation.
                                                                     const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
@@ -168,11 +172,11 @@
                                                                 });
                                                             } else {
                                                                 await Word.run(async (context) => {
-
-                                                                    document.getElementById("message").innerHTML += `<div class="error-msg">
-                                                        <i class="fa fa-times-circle"></i>
-                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
-                                                        </div>`
+                                                                    let element = document.getElementById("rules");
+                                                                    element.classList.add("error-msg");
+                                                                    let ruleIcon = document.getElementById("icon");
+                                                                    ruleIcon.classList.add("fa fa-times-circle")
+                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
 
                                                                     // Queue a command to search the document and ignore punctuation.
                                                                     const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
@@ -218,12 +222,16 @@
         async function checks() {
             document.getElementById("message").innerHTML = "";
             rulesInfo.forEach(rule => {
+                `<div id="rules">
+                <i id="icon"></i>
+                Rule :"${rule.name}" threshold is not breached for keyword "<b id="keywords"></b>"
+                </div>`
                 detectorsInfo.forEach(detector => {
                     if (rule.id === detector.rulesid) {
                         dictionaryInfo.forEach(dictionary => {
                             if (detector.id === dictionary.detectorsid) {
                                 let score = 0;
-                                keywordsInfo.forEach(keyword => {
+                                keywordsInfo.forEach((keyword,occurence) => {
                                     if (dictionary.id === keyword.dictionaryid) {
                                         Word.run((context) => {
                                             // Queue a command to get the current selection and then
@@ -254,10 +262,11 @@
                                                     if (detector.threshold > score) {
                                                         await Word.run(async (context) => {
     
-                                                            document.getElementById("message").innerHTML += `<div class="success-msg">
-                                                        <i class="fa fa-check"></i>
-                                                        Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
-                                                        </div>`
+                                                            let element = document.getElementById("rules");
+                                                                    element.classList.add("success-msg");
+                                                                    let ruleIcon = document.getElementById("icon");
+                                                                    ruleIcon.classList.add("fa fa-check")
+                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
     
                                                             // Queue a command to search the document and ignore punctuation.
                                                             const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
@@ -281,12 +290,11 @@
                                                         });
                                                     } else {
                                                         await Word.run(async (context) => {
-    
-                                                            document.getElementById("message").innerHTML += `<div class="error-msg">
-                                                        <i class="fa fa-times-circle"></i>
-                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
-                                                        </div>`
-    
+                                                            let element = document.getElementById("rules");
+                                                                    element.classList.add("error-msg");
+                                                                    let ruleIcon = document.getElementById("icon");
+                                                                    ruleIcon.classList.add("fa fa-times-circle")
+                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
                                                             // Queue a command to search the document and ignore punctuation.
                                                             const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
     
