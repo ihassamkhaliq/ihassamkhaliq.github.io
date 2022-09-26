@@ -41,11 +41,8 @@
     const tenantId = localStorage.getItem("tenantId")
 
     if(token === "undefined"){
-        console.log("I'm here")
-        console.log("I'm here")
         location.assign("/Home.html")
     }else if(token === null){
-        console.log("I'm here null")
         location.assign("/Home.html")
     }
 
@@ -144,12 +141,16 @@
 
                                                             if (detector.threshold > score) {
                                                                 await Word.run(async (context) => {
+                                                                    console.log("I'm at level 11")
                                                                     let element = document.getElementById("rules");
+                                                                    console.log("I'm at level 12")
                                                                     element.classList.add("success-msg");
+                                                                    console.log("I'm at level 13")
                                                                     let ruleIcon = document.getElementById("icon");
+                                                                    console.log("I'm at level 14")
                                                                     ruleIcon.classList.add("fa fa-check")
                                                                     document.getElementById("keywords").innerHTML += `${occurence}`
-
+                                                                    
                                                                     // Queue a command to search the document and ignore punctuation.
                                                                     const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
 
@@ -158,7 +159,7 @@
 
                                                                     // Synchronize the document state.
                                                                     await context.sync();
-
+                                                                    
                                                                     // Queue a set of commands to change the font for each found item.
                                                                     for (let i = 0; i < searchResults.items.length; i++) {
                                                                         searchResults.items[i].font.color = 'black';
@@ -172,9 +173,13 @@
                                                                 });
                                                             } else {
                                                                 await Word.run(async (context) => {
+                                                                    console.log("I'm at level 17")
                                                                     let element = document.getElementById("rules");
+                                                                    console.log("I'm at level 18")
                                                                     element.classList.add("error-msg");
+                                                                    console.log("I'm at level 19")
                                                                     let ruleIcon = document.getElementById("icon");
+                                                                    console.log("I'm at level 20")
                                                                     ruleIcon.classList.add("fa fa-times-circle")
                                                                     document.getElementById("keywords").innerHTML += `${occurence}`
 
@@ -261,12 +266,15 @@
     
                                                     if (detector.threshold > score) {
                                                         await Word.run(async (context) => {
-    
+                                                            console.log("I'm here at level 1")
                                                             let element = document.getElementById("rules");
-                                                                    element.classList.add("success-msg");
-                                                                    let ruleIcon = document.getElementById("icon");
-                                                                    ruleIcon.classList.add("fa fa-check")
-                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
+                                                            console.log("I'm here at level 2")
+                                                            element.classList.add("success-msg");
+                                                            console.log("I'm here at level 3")
+                                                            let ruleIcon = document.getElementById("icon");
+                                                            console.log("I'm here at level 4")
+                                                            ruleIcon.classList.add("fa fa-check")
+                                                            document.getElementById("keywords").innerHTML += `${occurence}`
     
                                                             // Queue a command to search the document and ignore punctuation.
                                                             const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
@@ -276,7 +284,7 @@
     
                                                             // Synchronize the document state.
                                                             await context.sync();
-    
+                                                            
                                                             // Queue a set of commands to change the font for each found item.
                                                             for (let i = 0; i < searchResults.items.length; i++) {
                                                                 searchResults.items[i].font.color = 'black';
@@ -290,10 +298,14 @@
                                                         });
                                                     } else {
                                                         await Word.run(async (context) => {
+                                                            console.log("I'm here at level 5")
                                                             let element = document.getElementById("rules");
-                                                                    element.classList.add("error-msg");
-                                                                    let ruleIcon = document.getElementById("icon");
-                                                                    ruleIcon.classList.add("fa fa-times-circle")
+                                                            console.log("I'm here at level 6")
+                                                            element.classList.add("error-msg");
+                                                            console.log("I'm here at level 7")
+                                                            let ruleIcon = document.getElementById("icon");
+                                                            console.log("I'm here at level 8")
+                                                            ruleIcon.classList.add("fa fa-times-circle")
                                                                     document.getElementById("keywords").innerHTML += `${occurence}`
                                                             // Queue a command to search the document and ignore punctuation.
                                                             const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
