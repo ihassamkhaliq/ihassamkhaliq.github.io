@@ -269,7 +269,7 @@
                                                             console.log("I'm here at level 1")
                                                             let element = document.getElementById("rules");
                                                             console.log("I'm here at level 2")
-                                                            element.classList.add("success-msg");
+                                                            // element.classList.add("success-msg");
                                                             console.log("I'm here at level 3")
                                                             let ruleIcon = document.getElementById("icon");
                                                             console.log("I'm here at level 4")
