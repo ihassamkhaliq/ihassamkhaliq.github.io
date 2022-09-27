@@ -102,10 +102,10 @@
                     document.getElementById("message").innerHTML = "";
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
-                        document.getElementById("message").innerHTML += `<div id="rules">
-                                                        <i id="icon"></i>
-                                                        Rule :"${rule.name}" threshold is not breached for keyword "<b id="keywords"></b>"
-                                                        </div>`
+                        document.getElementById("message").innerHTML += `<div class="rules">
+                <i class="icon"></i>
+                Rule :"${rule.name}" threshold is not breached for keyword "<b class="keywords"></b>"
+                </div>`
                         detectorsInfo.forEach(detector => {
                             if (rule.id === detector.rulesid) {
                                 dictionaryInfo.forEach(dictionary => {
@@ -141,68 +141,70 @@
 
                                                             if (detector.threshold > score) {
                                                                 await Word.run(async (context) => {
-                                                                    console.log("I'm at level 11")
-                                                                    let element = document.getElementById("rules");
-                                                                    console.log("I'm at level 12")
-                                                                    element.classList.add("success-msg");
-                                                                    console.log("I'm at level 13")
-                                                                    let ruleIcon = document.getElementById("icon");
-                                                                    console.log("I'm at level 14")
-                                                                    ruleIcon.classList.add("fa fa-check")
-                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
                                                                     
-                                                                    // Queue a command to search the document and ignore punctuation.
-                                                                    const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+                                                                    let element = document.getElementsByClassName("rules")[occurence];
+                                                                    console.log('-------HERE', element);
+                                                                    if (element) {
+                                                                        element.classList.toggle("success-msg");
 
-                                                                    // Queue a command to load the font property values.
-                                                                    searchResults.load('font');
+                                                                        let ruleIcon = document.getElementsByClassName("icon")[occurence];
 
-                                                                    // Synchronize the document state.
-                                                                    await context.sync();
-                                                                    
-                                                                    // Queue a set of commands to change the font for each found item.
-                                                                    for (let i = 0; i < searchResults.items.length; i++) {
-                                                                        searchResults.items[i].font.color = 'black';
-                                                                        searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                        searchResults.items[i].font.bold = false;
-                                                                    }
+                                                                        ruleIcon.classList.toggle("fa", "fa-check");
+                                                                        document.getElementById("keywords").innerHTML += `${occurence}`
+
+                                                                        // Queue a command to search the document and ignore punctuation.
+                                                                        const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+
+                                                                        // Queue a command to load the font property values.
+                                                                        searchResults.load('font');
+
+                                                                        // Synchronize the document state.
+                                                                        await context.sync();
+
+                                                                        // Queue a set of commands to change the font for each found item.
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'black';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                            searchResults.items[i].font.bold = false;
+                                                                        }
 
 
-                                                                    // Synchronize the document state.
-                                                                    await context.sync();
-                                                                });
+                                                                        // Synchronize the document state.
+                                                                        await context.sync();
+                                                                    } });
                                                             } else {
                                                                 await Word.run(async (context) => {
-                                                                    console.log("I'm at level 17")
-                                                                    let element = document.getElementById("rules");
-                                                                    console.log("I'm at level 18")
-                                                                    element.classList.add("error-msg");
-                                                                    console.log("I'm at level 19")
-                                                                    let ruleIcon = document.getElementById("icon");
-                                                                    console.log("I'm at level 20")
-                                                                    ruleIcon.classList.add("fa fa-times-circle")
-                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
+                                                                   
+                                                                    let element = document.getElementsByClassName("rules")[occurence];
+                                                                    console.log('-------HERE1', element);
+                                                                    if (element) {
+                                                                        element.classList.toggle("error-msg");
 
-                                                                    // Queue a command to search the document and ignore punctuation.
-                                                                    const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+                                                                        let ruleIcon = document.getElementsByClassName("icon")[occurence];
 
-                                                                    // Queue a command to load the font property values.
-                                                                    searchResults.load('font');
+                                                                        ruleIcon.classList.replace("fa", "fa fa-times-circle");
+                                                                        document.getElementById("keywords").innerHTML += `${occurence}`
 
-                                                                    // Synchronize the document state.
-                                                                    await context.sync();
+                                                                        // Queue a command to search the document and ignore punctuation.
+                                                                        const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
 
-                                                                    // Queue a set of commands to change the font for each found item.
-                                                                    for (let i = 0; i < searchResults.items.length; i++) {
-                                                                        searchResults.items[i].font.color = 'purple';
-                                                                        searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                        searchResults.items[i].font.bold = true;
-                                                                    }
+                                                                        // Queue a command to load the font property values.
+                                                                        searchResults.load('font');
+
+                                                                        // Synchronize the document state.
+                                                                        await context.sync();
+
+                                                                        // Queue a set of commands to change the font for each found item.
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'purple';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                            searchResults.items[i].font.bold = true;
+                                                                        }
 
 
-                                                                    // Synchronize the document state.
-                                                                    await context.sync();
-                                                                });
+                                                                        // Synchronize the document state.
+                                                                        await context.sync();
+                                                                    } });
                                                             }
                                                             // Queue a search command.
 
@@ -227,8 +229,8 @@
         async function checks() {
             document.getElementById("message").innerHTML = "";
             rulesInfo.forEach(rule => {
-                `<div id="rules">
-                <i id="icon"></i>
+                document.getElementById("message").innerHTML += `<div class="rules">
+                <i class="icon"></i>
                 Rule :"${rule.name}" threshold is not breached for keyword "<b id="keywords"></b>"
                 </div>`
                 detectorsInfo.forEach(detector => {
@@ -266,67 +268,71 @@
     
                                                     if (detector.threshold > score) {
                                                         await Word.run(async (context) => {
-                                                            console.log("I'm here at level 1")
-                                                            let element = document.getElementById("rules");
-                                                            console.log("I'm here at level 2")
-                                                            // element.classList.add("success-msg");
-                                                            console.log("I'm here at level 3")
-                                                            let ruleIcon = document.getElementById("icon");
-                                                            console.log("I'm here at level 4")
-                                                            ruleIcon.classList.add("fa fa-check")
-                                                            document.getElementById("keywords").innerHTML += `${occurence}`
-    
-                                                            // Queue a command to search the document and ignore punctuation.
-                                                            const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-    
-                                                            // Queue a command to load the font property values.
-                                                            searchResults.load('font');
-    
-                                                            // Synchronize the document state.
-                                                            await context.sync();
-                                                            
-                                                            // Queue a set of commands to change the font for each found item.
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'black';
-                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                searchResults.items[i].font.bold = false;
+                                                           
+                                                            let element = document.getElementsByClassName("rules")[occurence];
+                                                            if (element) {
+
+                                                                element.classList.toggle("success-msg");
+
+                                                                let ruleIcon = document.getElementsByClassName("icon")[occurence];
+
+                                                                ruleIcon.classList.toggle("fa","fa-check");
+                                                                document.getElementById("keywords").innerHTML += `${occurence}`
+
+                                                                // Queue a command to search the document and ignore punctuation.
+                                                                const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+
+                                                                // Queue a command to load the font property values.
+                                                                searchResults.load('font');
+
+                                                                // Synchronize the document state.
+                                                                await context.sync();
+
+                                                                // Queue a set of commands to change the font for each found item.
+                                                                for (let i = 0; i < searchResults.items.length; i++) {
+                                                                    searchResults.items[i].font.color = 'black';
+                                                                    searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                    searchResults.items[i].font.bold = false;
+                                                                }
+
+
+                                                                // Synchronize the document state.
+                                                                await context.sync();
                                                             }
-    
-    
-                                                            // Synchronize the document state.
-                                                            await context.sync();
                                                         });
                                                     } else {
                                                         await Word.run(async (context) => {
-                                                            console.log("I'm here at level 5")
-                                                            let element = document.getElementById("rules");
-                                                            console.log("I'm here at level 6")
-                                                            element.classList.add("error-msg");
-                                                            console.log("I'm here at level 7")
-                                                            let ruleIcon = document.getElementById("icon");
-                                                            console.log("I'm here at level 8")
-                                                            ruleIcon.classList.add("fa fa-times-circle")
-                                                                    document.getElementById("keywords").innerHTML += `${occurence}`
-                                                            // Queue a command to search the document and ignore punctuation.
-                                                            const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-    
-                                                            // Queue a command to load the font property values.
-                                                            searchResults.load('font');
-    
-                                                            // Synchronize the document state.
-                                                            await context.sync();
-    
-                                                            // Queue a set of commands to change the font for each found item.
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'purple';
-                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                searchResults.items[i].font.bold = true;
-                                                            }
-    
-    
-                                                            // Synchronize the document state.
-                                                            await context.sync();
-                                                        });
+                                                            
+                                                            let element = document.getElementsByClassName("rules")[occurence];
+                                                             console.log('-------HERE3', element);
+                                                            if (element) {
+                                                                element.classList.toggle("error-msg");
+
+                                                                let ruleIcon = document.getElementsByClassName("icon")[occurence];
+
+                                                                ruleIcon.classList.toggle("fa", "fa", "fa-times-circle");
+                                                                document.getElementById("keywords").innerHTML += `${occurence}`
+
+                                                                // Queue a command to search the document and ignore punctuation.
+                                                                const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+
+                                                                // Queue a command to load the font property values.
+                                                                searchResults.load('font');
+
+                                                                // Synchronize the document state.
+                                                                await context.sync();
+
+                                                                // Queue a set of commands to change the font for each found item.
+                                                                for (let i = 0; i < searchResults.items.length; i++) {
+                                                                    searchResults.items[i].font.color = 'purple';
+                                                                    searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                    searchResults.items[i].font.bold = true;
+                                                                }
+
+
+                                                                // Synchronize the document state.
+                                                                await context.sync();
+                                                            } });
                                                     }
                                                     // Queue a search command.
     
@@ -354,7 +360,7 @@
     function errorHandler(error) {
         // $$(Always be sure to catch any accumulated errors that bubble up from the Word.run execution., $loc_script_taskpane_home_js_comment35$)$$
         showNotification("Error:", error);
-        console.log("Error: " + error);
+        console.log("1Error: " + error);
         if (error instanceof OfficeExtension.Error) {
             console.log("Debug info: " + JSON.stringify(error.debugInfo));
         }
