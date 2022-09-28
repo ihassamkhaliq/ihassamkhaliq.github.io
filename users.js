@@ -26,23 +26,23 @@
     };
     // The initialize function must be run each time a new page is loaded.
 
-    function info(){
+    function info() {
         location.assign('/info.html')
     }
 
     setInterval(function () {
-        functionality() 
+        functionality()
     }, 5000);
- 
+
 
     // Getting User Data
 
     const token = localStorage.getItem("JWT")
     const tenantId = localStorage.getItem("tenantId")
 
-    if(token === "undefined"){
+    if (token === "undefined") {
         location.assign("/Home.html")
-    }else if(token === null){
+    } else if (token === null) {
         location.assign("/Home.html")
     }
 
@@ -60,300 +60,156 @@
     }
 
 
-   
-        const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
-        const userSub = await subscriptionDetail.json();
-    
-    
-            // Get all the Rules
-    
-            const rulesDetail = await getData(`https://localhost:7018/rules`)
-            const rulesInfo = await rulesDetail.json();
-    
-            // Get all the Detectors
-    
-            const detectorsDetail = await getData(`https://localhost:7018/detectors`)
-            const detectorsInfo = await detectorsDetail.json();
-    
-    
-            // Get all dictionaries
-    
-            const dictionaryDetail = await getData(`https://localhost:7018/dictionaries`)
-            const dictionaryInfo = await dictionaryDetail.json();
-    
-            // Get all keywords
-    
-            const keywordsDetail = await getData(`https://localhost:7018/keywords`)
-            const keywordsInfo = await keywordsDetail.json();
-    
-    
-        async function functionality() {
-    
-            userSub.forEach(element => {
-    
-                // This condition checks if the user is not on Trial
-                if (element.isTrialSub === false) {
-                        checks()
-                }
-    
-                // This Condition will execute when user will be onTrial 
-    
-                else {
-                    document.getElementById("message").innerHTML = "";
-                rulesInfo.forEach(rule => {
-                    if (rule.isPaidRule === false) {
-                        document.getElementById("message").innerHTML += `<div class="rules">
-                <i class="icon"></i>
-                Rule :"${rule.name}" threshold is not breached for keyword "<b class="keywords"></b>"
-                </div>`
-                        detectorsInfo.forEach(detector => {
-                            if (rule.id === detector.rulesid) {
-                                dictionaryInfo.forEach(dictionary => {
-                                    if (detector.id === dictionary.detectorsid) {
-                                        let score = 0;
-                                        keywordsInfo.forEach((keyword, occurence) => {
-                                            if (dictionary.id === keyword.dictionaryid) {
-                                                Word.run((context) => {
-                                                    // Queue a command to get the current selection and then
-                                                    // create a proxy range object with the results.
-                                                    let range = context.document.body;
+
+    const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
+    const userSub = await subscriptionDetail.json();
+
+
+    // Get all the Rules
+
+    const rulesDetail = await getData(`https://localhost:7018/rules`)
+    const rulesInfo = await rulesDetail.json();
+
+    // Get all the Detectors
+
+    const detectorsDetail = await getData(`https://localhost:7018/detectors`)
+    const detectorsInfo = await detectorsDetail.json();
+
+
+    // Get all dictionaries
+
+    const dictionaryDetail = await getData(`https://localhost:7018/dictionaries`)
+    const dictionaryInfo = await dictionaryDetail.json();
+
+    // Get all keywords
+
+    const keywordsDetail = await getData(`https://localhost:7018/keywords`)
+    const keywordsInfo = await keywordsDetail.json();
+
+
+    async function functionality() {
+
+        userSub.forEach(element => {
+            // This condition checks if the user is not on Trial
+            if (element.isTrialSub === false) {
+                rulesInfo.forEach((rule) => {
+                    checks(rule.id,index)
+                })
+            }
+
+            // This Condition will execute when user will be onTrial 
+
+            else {
+                rulesInfo.forEach((rule) => {
+                    if (rule.isPaidRule === false)
+                    checks(rule.id,index)
+                })
+            }
+
+        })
+    }
+
+    async function checks(ruleId) {
+        detectorsInfo.forEach(detector => {
+            if (ruleId === detector.rulesid) {
+                dictionaryInfo.forEach(dictionary => {
+                    if (detector.id === dictionary.detectorsid) {
+                        let score = 0;
+                        keywordsInfo.forEach((keyword) => {
+                              
+                            if (dictionary.id === keyword.dictionaryid) {
+                                Word.run((context) => {
+                                    // Queue a command to get the current selection and then
+                                    // create a proxy range object with the results.
+                                    let range = context.document.body;
 
 
 
-                                                    // This variable will keep the search results for the longest word.
-                                                    // Queue a command to load the range selection result.
-                                                    context.load(range, 'text');
+                                    // This variable will keep the search results for the longest word.
+                                    // Queue a command to load the range selection result.
+                                    context.load(range, 'text');
 
-                                                    // Synchronize the document state by executing the queued commands
-                                                    // and return a promise to indicate task completion.
-                                                    return context.sync()
-                                                        .then(async function () {
-                                                            // Get the longest word from the selection.
-                                                            function countOccurences(string, word) {
-                                                                return string.split(word).length - 1;
+                                    // Synchronize the document state by executing the queued commands
+                                    // and return a promise to indicate task completion.
+                                    return context.sync()
+                                        .then(async function () {
+                                                // Get the longest word from the selection.
+                                                const string = range.text.toLowerCase();
+                                                const word = keyword.name
+                                                const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
+
+
+                                                score += (keyword.weight * count);
+
+                                                if (detector.threshold > score) {
+                                                    await Word.run(async (context) => {
+
+                                                            // Queue a command to search the document and ignore punctuation.
+                                                            const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+                                                            searchResults.load('font');
+
+                                                            // Synchronize the document state.
+                                                            await context.sync();
+
+                                                            // Queue a set of commands to change the font for each found item.
+                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                searchResults.items[i].font.color = 'black';
+                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                searchResults.items[i].font.bold = false;
                                                             }
-                                                            const string = range.text.toLowerCase();
-                                                            const word = keyword.name
-                                                            const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
 
 
-                                                            score += (keyword.weight * count);
+                                                            // Synchronize the document state.
+                                                            await context.sync()
+                                                        
+                                                    });
+                                                } 
+                                                else  {
 
-                                                            if (detector.threshold > score) {
-                                                                await Word.run(async (context) => {
-                                                                    
-                                                                    let element = document.getElementsByClassName("rules")[occurence];
-                                                                    console.log('-------HERE', element);
-                                                                    if (element) {
-                                                                        element.classList.toggle("success-msg");
+                                                    await Word.run(async (context) => {
 
-                                                                        let ruleIcon = document.getElementsByClassName("icon")[occurence];
+                                                            // Queue a command to search the document and ignore punctuation.
+                                                            const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
+                                                            // Queue a command to load the font property values.
+                                                            // Queue a command to load the font property values.
+                                                            searchResults.load('font');
 
-                                                                        ruleIcon.classList.toggle("fa", "fa-check");
-                                                                        document.getElementById("keywords").innerHTML += `${occurence}`
+                                                            // Synchronize the document state.
+                                                            await context.sync();
 
-                                                                        // Queue a command to search the document and ignore punctuation.
-                                                                        const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-
-                                                                        // Queue a command to load the font property values.
-                                                                        searchResults.load('font');
-
-                                                                        // Synchronize the document state.
-                                                                        await context.sync();
-
-                                                                        // Queue a set of commands to change the font for each found item.
-                                                                        for (let i = 0; i < searchResults.items.length; i++) {
-                                                                            searchResults.items[i].font.color = 'black';
-                                                                            searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                            searchResults.items[i].font.bold = false;
-                                                                        }
-
-
-                                                                        // Synchronize the document state.
-                                                                        await context.sync();
-                                                                    } });
-                                                            } else {
-                                                                await Word.run(async (context) => {
-                                                                   
-                                                                    let element = document.getElementsByClassName("rules")[occurence];
-                                                                    console.log('-------HERE1', element);
-                                                                    if (element) {
-                                                                        element.classList.toggle("error-msg");
-
-                                                                        let ruleIcon = document.getElementsByClassName("icon")[occurence];
-
-                                                                        ruleIcon.classList.replace("fa", "fa fa-times-circle");
-                                                                        document.getElementById("keywords").innerHTML += `${occurence}`
-
-                                                                        // Queue a command to search the document and ignore punctuation.
-                                                                        const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-
-                                                                        // Queue a command to load the font property values.
-                                                                        searchResults.load('font');
-
-                                                                        // Synchronize the document state.
-                                                                        await context.sync();
-
-                                                                        // Queue a set of commands to change the font for each found item.
-                                                                        for (let i = 0; i < searchResults.items.length; i++) {
-                                                                            searchResults.items[i].font.color = 'purple';
-                                                                            searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                            searchResults.items[i].font.bold = true;
-                                                                        }
-
-
-                                                                        // Synchronize the document state.
-                                                                        await context.sync();
-                                                                    } });
+                                                            // Queue a set of commands to change the font for each found item.
+                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                searchResults.items[i].font.color = 'purple';
+                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                searchResults.items[i].font.bold = true;
                                                             }
-                                                            // Queue a search command.
 
-                                                            // Queue a commmand to load the font property of the results.
+
+                                                            // Synchronize the document state.
+                                                            await context.sync()
                                                         })
-                                                        .then(context.sync)
-                                                })
-                                                    .catch(errorHandler);
-                                            }
-                                        })
-                                    }
-                                })
+                            
+                                                }
+                                            // Queue a search command.
 
+                                            // Queue a commmand to load the font property of the results.
+                                            })
+                                            
+                                        })
+                                        .then(context.sync)
+                                }
+                            })
+                                    .catch(errorHandler);
                             }
                         })
                     }
                 })
                 }
-            })
-        }
-    
-        async function checks() {
-            document.getElementById("message").innerHTML = "";
-            rulesInfo.forEach(rule => {
-                document.getElementById("message").innerHTML += `<div class="rules">
-                <i class="icon"></i>
-                Rule :"${rule.name}" threshold is not breached for keyword "<b id="keywords"></b>"
-                </div>`
-                detectorsInfo.forEach(detector => {
-                    if (rule.id === detector.rulesid) {
-                        dictionaryInfo.forEach(dictionary => {
-                            if (detector.id === dictionary.detectorsid) {
-                                let score = 0;
-                                keywordsInfo.forEach((keyword,occurence) => {
-                                    if (dictionary.id === keyword.dictionaryid) {
-                                        Word.run((context) => {
-                                            // Queue a command to get the current selection and then
-                                            // create a proxy range object with the results.
-                                            let range = context.document.body;
-    
-    
-    
-                                            // This variable will keep the search results for the longest word.
-                                            // Queue a command to load the range selection result.
-                                            context.load(range, 'text');
-    
-                                            // Synchronize the document state by executing the queued commands
-                                            // and return a promise to indicate task completion.
-                                            return context.sync()
-                                                .then(async function () {
-                                                    // Get the longest word from the selection.
-                                                    function countOccurences(string, word) {
-                                                        return string.split(word).length - 1;
-                                                    }
-                                                    const string = range.text.toLowerCase();
-                                                    const word = keyword.name
-                                                    const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
-    
-    
-                                                    score += (keyword.weight * count);
-    
-                                                    if (detector.threshold > score) {
-                                                        await Word.run(async (context) => {
-                                                           
-                                                            let element = document.getElementsByClassName("rules")[occurence];
-                                                            if (element) {
-
-                                                                element.classList.toggle("success-msg");
-
-                                                                let ruleIcon = document.getElementsByClassName("icon")[occurence];
-
-                                                                ruleIcon.classList.toggle("fa","fa-check");
-                                                                document.getElementById("keywords").innerHTML += `${occurence}`
-
-                                                                // Queue a command to search the document and ignore punctuation.
-                                                                const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-
-                                                                // Queue a command to load the font property values.
-                                                                searchResults.load('font');
-
-                                                                // Synchronize the document state.
-                                                                await context.sync();
-
-                                                                // Queue a set of commands to change the font for each found item.
-                                                                for (let i = 0; i < searchResults.items.length; i++) {
-                                                                    searchResults.items[i].font.color = 'black';
-                                                                    searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                    searchResults.items[i].font.bold = false;
-                                                                }
-
-
-                                                                // Synchronize the document state.
-                                                                await context.sync();
-                                                            }
-                                                        });
-                                                    } else {
-                                                        await Word.run(async (context) => {
-                                                            
-                                                            let element = document.getElementsByClassName("rules")[occurence];
-                                                             console.log('-------HERE3', element);
-                                                            if (element) {
-                                                                element.classList.toggle("error-msg");
-
-                                                                let ruleIcon = document.getElementsByClassName("icon")[occurence];
-
-                                                                ruleIcon.classList.toggle("fa", "fa", "fa-times-circle");
-                                                                document.getElementById("keywords").innerHTML += `${occurence}`
-
-                                                                // Queue a command to search the document and ignore punctuation.
-                                                                const searchResults = context.document.body.search(keyword.name, { ignorePunct: true });
-
-                                                                // Queue a command to load the font property values.
-                                                                searchResults.load('font');
-
-                                                                // Synchronize the document state.
-                                                                await context.sync();
-
-                                                                // Queue a set of commands to change the font for each found item.
-                                                                for (let i = 0; i < searchResults.items.length; i++) {
-                                                                    searchResults.items[i].font.color = 'purple';
-                                                                    searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                    searchResults.items[i].font.bold = true;
-                                                                }
-
-
-                                                                // Synchronize the document state.
-                                                                await context.sync();
-                                                            } });
-                                                    }
-                                                    // Queue a search command.
-    
-                                                    // Queue a commmand to load the font property of the results.
-                                                })
-                                                .then(context.sync)
-                                        })
-                                            .catch(errorHandler);
-                                    }
-                                })
-                            }
-                        })
-    
-                    }
-                })
-            })
-        }
-   
 
     // Get the Subscription of User
-
+    function countOccurences(string, word) {
+        return string.split(word).length - 1;
+    }
 
 
     //$$(Helper function for treating errors, $loc_script_taskpane_home_js_comment34$)$$
@@ -378,5 +234,5 @@
         $("#notification-body").text(content);
         messageBanner.showBanner();
         messageBanner.toggleExpansion();
-    } } 
-    ());
+    }
+})();
