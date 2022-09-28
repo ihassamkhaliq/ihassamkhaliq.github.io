@@ -196,7 +196,7 @@
                                             })
                                             
                                         })
-                                        .then(context.sync)
+                                        .then(context.sync())
                                 }
                             })
                                     .catch(errorHandler);
