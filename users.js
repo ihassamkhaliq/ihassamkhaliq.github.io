@@ -93,7 +93,7 @@
             // This condition checks if the user is not on Trial
             if (element.isTrialSub === false) {
                 rulesInfo.forEach((rule) => {
-                    checks(rule.id,index)
+                    checks(rule.id)
                 })
             }
 
@@ -102,7 +102,7 @@
             else {
                 rulesInfo.forEach((rule) => {
                     if (rule.isPaidRule === false)
-                    checks(rule.id,index)
+                    checks(rule.id)
                 })
             }
 
