@@ -29,11 +29,14 @@
 <!-- <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css"> -->
 
 <body id="automatic">
-
     <div>
-        <h1> Tenant Rules</h1>
-
-        <br />
+        <h1 id="companyName"></h1>
+        <h4>Case Sensitive</h4>
+            <label class="switch">
+                <input id="toggler" type="checkbox" checked >
+                <span class="slider round"></span>
+            </label>
+        <br/>
         <div id="message"></div>
         <br />
         <button class="Button Button--primary" id="logout">
@@ -41,7 +44,7 @@
             <span class="Button-label ">Logout</span>
             <span class="Button-description" id="button-desc"></span>
         </button>
-        <br />
+        <br/>
         <button class="Button Button--primary" id="info">
             <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
             <span class="Button-label"><i class="fa-sharp fa-solid fa-circle-info">info</i></span>
@@ -75,6 +78,6 @@
         </div>
         <button class="MessageBanner-close"> <i class="ms-Icon ms-Icon--ChromeClose"></i> </button>
     </div>
-    <script src="users.js" type="text/javascript"></script>
+    <script src="users1.js" type="text/javascript"></script>
 </body>
 </html>
