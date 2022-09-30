@@ -49,6 +49,7 @@
     const tenantDetail = await getData(`https://localhost:7018/tenant/${tenantId}`)
     const  usertenant = await tenantDetail.json();
     document.getElementById("tenantRows").innerHTML += `<tr>
+    <td  class="active-row">${usertenant.id}</td>
     <td  class="active-row">${usertenant.pocName}</td>
     <td>${usertenant.companyName}</td>
 </tr>`
@@ -89,7 +90,9 @@
                     document.getElementById("subscriptionRows").innerHTML += `<tr>
                     <td  class="active-row">${subscription.name}</td>
                     <td>${subscription.subOwner}</td>
-                    <td> On Trial </td>
+                    <td> Paid </td>
+                    <td>${subscription.subStartDate} </td>
+                    <td>${subscription.subEndDate} </td>
                 </tr>`
                         checks()
                 }
@@ -102,6 +105,8 @@
                     <td  class="active-row">${subscription.name}</td>
                     <td>${subscription.subOwner}</td>
                     <td> On Trial </td>
+                    <td>${subscription.subStartDate} </td>
+                    <td>${subscription.subEndDate} </td>
                 </tr>`
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
