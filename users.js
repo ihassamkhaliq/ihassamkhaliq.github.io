@@ -2,8 +2,6 @@
     var messageBanner;
     Office.initialize = function (reason) {
         $(document).ready(function () {
-            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-            Office.context.document.settings.saveAsync();
             // Initialize the notification mechanism and hide it
             var element = document.querySelector('.MessageBanner');
             messageBanner = new components.MessageBanner(element);
@@ -171,6 +169,11 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
+
+                                                            Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                            Office.context.document.settings.saveAsync();
+
+
                                                             // Queue a set of commands to change the font for each found item.
                                                             document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
@@ -183,6 +186,9 @@
                                                                 searchResults.items[i].font.bold = false;
                                                             }
                                                         } else {
+                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                            Office.context.document.settings.saveAsync();
+
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
@@ -216,6 +222,10 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
+                                                            Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                            Office.context.document.settings.saveAsync();
+
+
                                                             // Queue a set of commands to change the font for each found item.
                                                             document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
@@ -228,6 +238,10 @@
                                                                 searchResults.items[i].font.bold = false;
                                                             }
                                                         } else {
+
+                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                            Office.context.document.settings.saveAsync();
+
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
