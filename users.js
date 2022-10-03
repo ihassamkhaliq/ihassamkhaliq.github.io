@@ -173,8 +173,14 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
-                                                            //Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                            //Office.context.document.settings.saveAsync();
+                                                            if (valid) {
+                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                Office.context.document.settings.saveAsync();
+                                                            }else{
+                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                Office.context.document.settings.saveAsync();
+                                                            }
+                                                      
 
 
                                                             // Queue a set of commands to change the font for each found item.
@@ -194,6 +200,9 @@
 
                                                             if (valid) {
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                Office.context.document.settings.saveAsync();
+                                                            }else{
+                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
                                                                 Office.context.document.settings.saveAsync();
                                                             }
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
@@ -229,8 +238,13 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
-                                                            //Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                            //Office.context.document.settings.saveAsync();
+                                                            if (valid) {
+                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                Office.context.document.settings.saveAsync();
+                                                            }else{
+                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                Office.context.document.settings.saveAsync();
+                                                            }
 
 
                                                             // Queue a set of commands to change the font for each found item.
@@ -251,7 +265,11 @@
                                                             if (valid) {
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
                                                                 Office.context.document.settings.saveAsync();
+                                                            }else{
+                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                Office.context.document.settings.saveAsync();
                                                             }
+                                                            
 
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
