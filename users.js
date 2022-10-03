@@ -174,7 +174,7 @@
                                                                         // Queue a set of commands to change the font for each found item.
                                                                         document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
-                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
                                                                         for (let i = 0; i < searchResults.items.length; i++) {
@@ -193,7 +193,7 @@
                                                                         }
                                                                         document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
-                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
                                                                         for (let i = 0; i < searchResults.items.length; i++) {
                                                                             searchResults.items[i].font.color = 'purple';
@@ -234,7 +234,7 @@
                                                                         // Queue a set of commands to change the font for each found item.
                                                                         document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
-                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
                                                                         for (let i = 0; i < searchResults.items.length; i++) {
@@ -255,7 +255,7 @@
 
                                                                         document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
-                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
                                                                         for (let i = 0; i < searchResults.items.length; i++) {
                                                                             searchResults.items[i].font.color = 'purple';
@@ -350,7 +350,7 @@
                                                                             // Queue a set of commands to change the font for each found item.
                                                                             document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
-                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
                                                                             for (let i = 0; i < searchResults.items.length; i++) {
@@ -369,7 +369,7 @@
                                                                             }
                                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
-                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
                                                                             for (let i = 0; i < searchResults.items.length; i++) {
                                                                                 searchResults.items[i].font.color = 'purple';
@@ -410,7 +410,7 @@
                                                                             // Queue a set of commands to change the font for each found item.
                                                                             document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
-                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            Rule :"${rule.name}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
                                                                             for (let i = 0; i < searchResults.items.length; i++) {
@@ -431,7 +431,7 @@
 
                                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
-                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        Rule :"${rule.name}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
                                                                             for (let i = 0; i < searchResults.items.length; i++) {
                                                                                 searchResults.items[i].font.color = 'purple';
