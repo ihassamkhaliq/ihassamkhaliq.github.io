@@ -93,7 +93,10 @@
     const keywordsDetail = await getData(`https://localhost:7018/keywords`)
     const keywordsInfo = await keywordsDetail.json();
 
-    
+
+    let regex = /\b\w{9}\b/g
+    let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
+
 
     async function functionality() {
 
@@ -105,7 +108,176 @@
             // This condition checks if the user is not on Trial
             if (element.isTrialSub === false) {
                 rulesInfo.forEach(rule => {
-                    checks(rule.id, rule.name, valid)
+                    console.log("I'm in the rules")
+                    detectorsInfo.forEach(detector => {
+                        if (rule.id === detector.rulesid) {
+                            console.log("I'm in Detectors")
+                            dictionaryInfo.forEach(dictionary => {
+                                if (detector.id === dictionary.detectorsid) {
+                                    console.log("I'm in Dictionary")
+                                    let score = 0;
+                                    keywordsInfo.forEach(keyword => {
+                                        if (dictionary.id === keyword.dictionaryid) {
+                                            console.log("I'm in Keywords")
+                                            Word.run((context) => {
+                                                // Queue a command to get the current selection and then
+                                                // create a proxy range object with the results.
+                                                let range = context.document.body;
+
+
+
+                                                // This variable will keep the search results for the longest word.
+                                                // Queue a command to load the range selection result.
+                                                context.load(range, 'text');
+
+                                                // Synchronize the document state by executing the queued commands
+                                                // and return a promise to indicate task completion.
+                                                return context.sync()
+                                                    .then(async function () {
+                                                        // Get the longest word from the selection.
+
+                                                        const string = range.text.toLowerCase();
+                                                        const word = keyword.name
+                                                        //const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
+                                                        let switcher = document.getElementById('toggler').checked
+
+                                                        if (switcher) {
+                                                            await Word.run(async (context) => {
+
+                                                                // Queue a command to search the document and ignore punctuation.
+                                                                let body = context.document.body;
+                                                                let searchResults = context.document.body.search(keyword.name, { matchCase: true });
+
+                                                                searchResults.load('font');
+                                                                context.load(body, 'text');
+
+
+                                                                return context.sync().then(async () => {
+
+                                                                    const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
+                                                                    await regEx(body.text, regex)
+                                                                    await regEx(body.text, regex1)
+                                                                    score += (keyword.weight * count);
+                                                                    if (detector.threshold > score) {
+
+                                                                        if (valid) {
+                                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                            console.log("Auto Open Feature Active")
+
+                                                                            Office.context.document.settings.saveAsync();
+
+
+                                                                        }
+
+
+
+                                                                        // Queue a set of commands to change the font for each found item.
+                                                                        document.getElementById("message").innerHTML += `<div class="success-msg">
+                                                            <i class="fa fa-check"></i>
+                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            </div>`
+
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'black';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                            searchResults.items[i].font.bold = false;
+                                                                        }
+                                                                    } else {
+
+                                                                        valid = true;
+
+                                                                        if (valid) {
+                                                                            console.log("Auto Open Feature Active")
+                                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                            Office.context.document.settings.saveAsync();
+                                                                        }
+                                                                        document.getElementById("message").innerHTML += `<div class="error-msg">
+                                                        <i class="fa fa-times-circle"></i>
+                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        </div>`
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'purple';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                            searchResults.items[i].font.bold = true;
+                                                                        }
+                                                                    }
+                                                                }).then(context.sync)
+
+                                                            }).catch(errorHandler)
+                                                        }
+                                                        else {
+                                                            await Word.run(async (context) => {
+
+                                                                // Queue a command to search the document and ignore punctuation.
+                                                                let body = context.document.body;
+                                                                let searchResults = context.document.body.search(keyword.name);
+
+                                                                searchResults.load('font');
+                                                                context.load(body, 'text');
+
+
+                                                                return context.sync().then(async () => {
+
+                                                                    const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
+                                                                    await regEx(body.text, regex)
+                                                                    await regEx(body.text, regex1)
+                                                                    score += (keyword.weight * count);
+                                                                    if (detector.threshold > score) {
+
+                                                                        if (valid) {
+                                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                            console.log("Auto Open Feature Active")
+                                                                            Office.context.document.settings.saveAsync();
+                                                                        }
+
+
+                                                                        // Queue a set of commands to change the font for each found item.
+                                                                        document.getElementById("message").innerHTML += `<div class="success-msg">
+                                                            <i class="fa fa-check"></i>
+                                                            Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
+                                                            </div>`
+
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'black';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                            searchResults.items[i].font.bold = false;
+                                                                        }
+                                                                    } else {
+
+                                                                        valid = true;
+
+                                                                        if (valid) {
+                                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                            console.log("Auto Open Feature Active")
+                                                                            Office.context.document.settings.saveAsync();
+                                                                        }
+
+
+                                                                        document.getElementById("message").innerHTML += `<div class="error-msg">
+                                                        <i class="fa fa-times-circle"></i>
+                                                        Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
+                                                        </div>`
+                                                                        for (let i = 0; i < searchResults.items.length; i++) {
+                                                                            searchResults.items[i].font.color = 'purple';
+                                                                            searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                            searchResults.items[i].font.bold = true;
+                                                                        }
+                                                                    }
+                                                                }).then(context.sync)
+
+                                                            }).catch(errorHandler)
+                                                        }
+                                                    })
+                                                    .then(context.sync)
+                                            })
+                                                .catch(errorHandler);
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                    })
                 })
             }
 
@@ -113,186 +285,188 @@
             else {
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
-                        checks(rule.id, rule.name)
-                    }
-                })
-            }
-        })
-    }
+                        detectorsInfo.forEach(detector => {
+                            if (rule.id === detector.rulesid) {
+                                console.log("I'm in Detectors")
+                                dictionaryInfo.forEach(dictionary => {
+                                    if (detector.id === dictionary.detectorsid) {
+                                        console.log("I'm in Dictionary")
+                                        let score = 0;
+                                        keywordsInfo.forEach(keyword => {
+                                            if (dictionary.id === keyword.dictionaryid) {
+                                                console.log("I'm in Keywords")
+                                                Word.run((context) => {
+                                                    // Queue a command to get the current selection and then
+                                                    // create a proxy range object with the results.
+                                                    let range = context.document.body;
 
 
 
-    let regex = /\b\w{9}\b/g
-    let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
+                                                    // This variable will keep the search results for the longest word.
+                                                    // Queue a command to load the range selection result.
+                                                    context.load(range, 'text');
 
-    async function checks(ruleId, ruleName,valid) {
-        detectorsInfo.forEach(detector => {
-            if (ruleId === detector.rulesid) {
-                dictionaryInfo.forEach(dictionary => {
-                    if (detector.id === dictionary.detectorsid) {
-                        let score = 0;
-                        keywordsInfo.forEach(keyword => {
-                            if (dictionary.id === keyword.dictionaryid) {
-                                Word.run((context) => {
-                                    // Queue a command to get the current selection and then
-                                    // create a proxy range object with the results.
-                                    let range = context.document.body;
+                                                    // Synchronize the document state by executing the queued commands
+                                                    // and return a promise to indicate task completion.
+                                                    return context.sync()
+                                                        .then(async function () {
+                                                            // Get the longest word from the selection.
 
+                                                            const string = range.text.toLowerCase();
+                                                            const word = keyword.name
+                                                            //const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
+                                                            let switcher = document.getElementById('toggler').checked
 
+                                                            if (switcher) {
+                                                                await Word.run(async (context) => {
 
-                                    // This variable will keep the search results for the longest word.
-                                    // Queue a command to load the range selection result.
-                                    context.load(range, 'text');
+                                                                    // Queue a command to search the document and ignore punctuation.
+                                                                    let body = context.document.body;
+                                                                    let searchResults = context.document.body.search(keyword.name, { matchCase: true });
 
-                                    // Synchronize the document state by executing the queued commands
-                                    // and return a promise to indicate task completion.
-                                    return context.sync()
-                                        .then(async function () {
-                                            // Get the longest word from the selection.
-
-                                            const string = range.text.toLowerCase();
-                                            const word = keyword.name
-                                            //const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
-                                            let switcher = document.getElementById('toggler').checked
-
-                                            if (switcher) {
-                                                await Word.run(async (context) => {
-
-                                                    // Queue a command to search the document and ignore punctuation.
-                                                    let body = context.document.body;
-                                                    let searchResults = context.document.body.search(keyword.name, { matchCase: true });
-
-                                                    searchResults.load('font');
-                                                    context.load(body, 'text');
+                                                                    searchResults.load('font');
+                                                                    context.load(body, 'text');
 
 
-                                                    return context.sync().then(async () => {
+                                                                    return context.sync().then(async () => {
 
-                                                        const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
-                                                        await regEx(body.text, regex)
-                                                        await regEx(body.text, regex1)
-                                                        score += (keyword.weight * count);
-                                                        if (detector.threshold > score) {
+                                                                        const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
+                                                                        await regEx(body.text, regex)
+                                                                        await regEx(body.text, regex1)
+                                                                        score += (keyword.weight * count);
+                                                                        if (detector.threshold > score) {
 
-                                                            if (valid) {
-                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                                console.log("Auto Open Feature Active")
+                                                                            if (valid) {
+                                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                                console.log("Auto Open Feature Active")
 
-                                                                Office.context.document.settings.saveAsync();
+                                                                                Office.context.document.settings.saveAsync();
 
 
-                                                            }
+                                                                            }
 
 
 
-                                                            // Queue a set of commands to change the font for each found item.
-                                                            document.getElementById("message").innerHTML += `<div class="success-msg">
+                                                                            // Queue a set of commands to change the font for each found item.
+                                                                            document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
                                                             Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'black';
-                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                searchResults.items[i].font.bold = false;
-                                                            }
-                                                        } else {
+                                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                                searchResults.items[i].font.color = 'black';
+                                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                                searchResults.items[i].font.bold = false;
+                                                                            }
+                                                                        } else {
 
-                                                            valid = true;
+                                                                            valid = true;
 
-                                                            if (valid) {
-                                                                console.log("Auto Open Feature Active")
-                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                                Office.context.document.settings.saveAsync();
-                                                            } 
-                                                            document.getElementById("message").innerHTML += `<div class="error-msg">
+                                                                            if (valid) {
+                                                                                console.log("Auto Open Feature Active")
+                                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                                Office.context.document.settings.saveAsync();
+                                                                            }
+                                                                            document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'purple';
-                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                searchResults.items[i].font.bold = true;
+                                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                                searchResults.items[i].font.color = 'purple';
+                                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                                searchResults.items[i].font.bold = true;
+                                                                            }
+                                                                        }
+                                                                    }).then(context.sync)
+
+                                                                }).catch(errorHandler)
                                                             }
-                                                        }
-                                                    }).then(context.sync)
+                                                            else {
+                                                                await Word.run(async (context) => {
 
-                                                }).catch(errorHandler)
-                                            }
-                                            else {
-                                                await Word.run(async (context) => {
+                                                                    // Queue a command to search the document and ignore punctuation.
+                                                                    let body = context.document.body;
+                                                                    let searchResults = context.document.body.search(keyword.name);
 
-                                                    // Queue a command to search the document and ignore punctuation.
-                                                    let body = context.document.body;
-                                                    let searchResults = context.document.body.search(keyword.name);
-
-                                                    searchResults.load('font');
-                                                    context.load(body, 'text');
+                                                                    searchResults.load('font');
+                                                                    context.load(body, 'text');
 
 
-                                                    return context.sync().then(async () => {
+                                                                    return context.sync().then(async () => {
 
-                                                        const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
-                                                        await regEx(body.text, regex)
-                                                        await regEx(body.text, regex1)
-                                                        score += (keyword.weight * count);
-                                                        if (detector.threshold > score) {
+                                                                        const count = searchResults.items.length  // will give the total number of counts of a word which occurs in Document
+                                                                        await regEx(body.text, regex)
+                                                                        await regEx(body.text, regex1)
+                                                                        score += (keyword.weight * count);
+                                                                        if (detector.threshold > score) {
 
-                                                            if (valid) {
-                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                                console.log("Auto Open Feature Active")
-                                                                Office.context.document.settings.saveAsync();
-                                                            }
+                                                                            if (valid) {
+                                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                                console.log("Auto Open Feature Active")
+                                                                                Office.context.document.settings.saveAsync();
+                                                                            }
 
 
-                                                            // Queue a set of commands to change the font for each found item.
-                                                            document.getElementById("message").innerHTML += `<div class="success-msg">
+                                                                            // Queue a set of commands to change the font for each found item.
+                                                                            document.getElementById("message").innerHTML += `<div class="success-msg">
                                                             <i class="fa fa-check"></i>
                                                             Rule :"${ruleName}" threshold is not breached for keyword "${keyword.name}"
                                                             </div>`
 
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'black';
-                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
-                                                                searchResults.items[i].font.bold = false;
-                                                            }
-                                                        } else {
+                                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                                searchResults.items[i].font.color = 'black';
+                                                                                searchResults.items[i].font.highlightColor = '#FFFFFF'; //white
+                                                                                searchResults.items[i].font.bold = false;
+                                                                            }
+                                                                        } else {
 
-                                                            valid = true;
+                                                                            valid = true;
 
-                                                            if (valid) {
-                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                                console.log("Auto Open Feature Active")
-                                                                Office.context.document.settings.saveAsync();
-                                                            }
+                                                                            if (valid) {
+                                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                                console.log("Auto Open Feature Active")
+                                                                                Office.context.document.settings.saveAsync();
+                                                                            }
 
 
-                                                            document.getElementById("message").innerHTML += `<div class="error-msg">
+                                                                            document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
                                                         </div>`
-                                                            for (let i = 0; i < searchResults.items.length; i++) {
-                                                                searchResults.items[i].font.color = 'purple';
-                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
-                                                                searchResults.items[i].font.bold = true;
-                                                            }
-                                                        }
-                                                    }).then(context.sync)
+                                                                            for (let i = 0; i < searchResults.items.length; i++) {
+                                                                                searchResults.items[i].font.color = 'purple';
+                                                                                searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
+                                                                                searchResults.items[i].font.bold = true;
+                                                                            }
+                                                                        }
+                                                                    }).then(context.sync)
 
-                                                }).catch(errorHandler)
+                                                                }).catch(errorHandler)
+                                                            }
+                                                        })
+                                                        .then(context.sync)
+                                                })
+                                                    .catch(errorHandler);
                                             }
                                         })
-                                        .then(context.sync)
+                                    }
                                 })
-                                    .catch(errorHandler);
+
                             }
                         })
                     }
                 })
-
             }
         })
     }
+
+
+
+
+
+    //async function checks(ruleId, ruleName, valid) {
+
+    //}
 
 
 
