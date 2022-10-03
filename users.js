@@ -118,13 +118,15 @@
         })
     }
 
-   
+
 
     let regex = /\b\w{9}\b/g
     let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
 
     async function checks(ruleId, ruleName) {
         let valid = false;
+        Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+        Office.context.document.settings.saveAsync();
         detectorsInfo.forEach(detector => {
             if (ruleId === detector.rulesid) {
                 dictionaryInfo.forEach(dictionary => {
@@ -176,16 +178,12 @@
                                                             if (valid) {
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
                                                                 console.log("Auto Open Feature Active")
-                                                                
+
                                                                 Office.context.document.settings.saveAsync();
 
 
-                                                            }else{
-                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                                console.log("Auto Open Feature Removed")
-                                                                Office.context.document.settings.saveAsync();
                                                             }
-                                                      
+
 
 
                                                             // Queue a set of commands to change the font for each found item.
@@ -207,11 +205,7 @@
                                                                 console.log("Auto Open Feature Active")
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
                                                                 Office.context.document.settings.saveAsync();
-                                                            }else{
-                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                                console.log("Auto Open Feature Removed")
-                                                                Office.context.document.settings.saveAsync();
-                                                            }
+                                                            } 
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
@@ -249,10 +243,6 @@
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
                                                                 console.log("Auto Open Feature Active")
                                                                 Office.context.document.settings.saveAsync();
-                                                            }else{
-                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                                console.log("Auto Open Feature Removed")
-                                                                Office.context.document.settings.saveAsync();
                                                             }
 
 
@@ -275,12 +265,8 @@
                                                                 Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
                                                                 console.log("Auto Open Feature Active")
                                                                 Office.context.document.settings.saveAsync();
-                                                            }else{
-                                                                Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                                console.log("Auto Open Feature Removed")
-                                                                Office.context.document.settings.saveAsync();
                                                             }
-                                                            
+
 
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
