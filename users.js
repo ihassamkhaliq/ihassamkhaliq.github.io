@@ -93,17 +93,19 @@
     const keywordsDetail = await getData(`https://localhost:7018/keywords`)
     const keywordsInfo = await keywordsDetail.json();
 
-    let autoOpenChecker = 0;
+    
 
     async function functionality() {
 
         userSub.forEach(element => {
-
+            let valid = false;
+            Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+            Office.context.document.settings.saveAsync();
             document.getElementById("message").innerHTML = "";
             // This condition checks if the user is not on Trial
             if (element.isTrialSub === false) {
                 rulesInfo.forEach(rule => {
-                    checks(rule.id, rule.name)
+                    checks(rule.id, rule.name, valid)
                 })
             }
 
@@ -123,10 +125,7 @@
     let regex = /\b\w{9}\b/g
     let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
 
-    async function checks(ruleId, ruleName) {
-        let valid = false;
-        Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-        Office.context.document.settings.saveAsync();
+    async function checks(ruleId, ruleName,valid) {
         detectorsInfo.forEach(detector => {
             if (ruleId === detector.rulesid) {
                 dictionaryInfo.forEach(dictionary => {
