@@ -118,12 +118,13 @@
         })
     }
 
-    let valid = false;
+   
 
     let regex = /\b\w{9}\b/g
     let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
 
     async function checks(ruleId, ruleName) {
+        let valid = false;
         detectorsInfo.forEach(detector => {
             if (ruleId === detector.rulesid) {
                 dictionaryInfo.forEach(dictionary => {
