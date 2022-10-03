@@ -182,6 +182,7 @@
 
                                                             }else{
                                                                 Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                console.log("Auto Open Feature Removed")
                                                                 Office.context.document.settings.saveAsync();
                                                             }
                                                       
@@ -208,6 +209,7 @@
                                                                 Office.context.document.settings.saveAsync();
                                                             }else{
                                                                 Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                console.log("Auto Open Feature Removed")
                                                                 Office.context.document.settings.saveAsync();
                                                             }
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
@@ -249,6 +251,7 @@
                                                                 Office.context.document.settings.saveAsync();
                                                             }else{
                                                                 Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                console.log("Auto Open Feature Removed")
                                                                 Office.context.document.settings.saveAsync();
                                                             }
 
@@ -274,6 +277,7 @@
                                                                 Office.context.document.settings.saveAsync();
                                                             }else{
                                                                 Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                                console.log("Auto Open Feature Removed")
                                                                 Office.context.document.settings.saveAsync();
                                                             }
                                                             
