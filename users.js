@@ -93,6 +93,7 @@
     const keywordsDetail = await getData(`https://localhost:7018/keywords`)
     const keywordsInfo = await keywordsDetail.json();
 
+    let autoOpenChecker = 0;
 
     async function functionality() {
 
@@ -116,6 +117,8 @@
             }
         })
     }
+
+    let valid = false;
 
     let regex = /\b\w{9}\b/g
     let regex1 = /[a-zA-Z0-9]{2}[0-9]{6,}/g
@@ -169,9 +172,8 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
-
-                                                            Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                            Office.context.document.settings.saveAsync();
+                                                            //Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                            //Office.context.document.settings.saveAsync();
 
 
                                                             // Queue a set of commands to change the font for each found item.
@@ -186,9 +188,13 @@
                                                                 searchResults.items[i].font.bold = false;
                                                             }
                                                         } else {
-                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                            Office.context.document.settings.saveAsync();
 
+                                                            valid = true;
+
+                                                            if (valid) {
+                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                Office.context.document.settings.saveAsync();
+                                                            }
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
                                                         Rule :"${ruleName}" threshold is breached for keyword "${keyword.name}"
@@ -222,8 +228,8 @@
                                                         score += (keyword.weight * count);
                                                         if (detector.threshold > score) {
 
-                                                            Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
-                                                            Office.context.document.settings.saveAsync();
+                                                            //Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
+                                                            //Office.context.document.settings.saveAsync();
 
 
                                                             // Queue a set of commands to change the font for each found item.
@@ -239,8 +245,12 @@
                                                             }
                                                         } else {
 
-                                                            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                                                            Office.context.document.settings.saveAsync();
+                                                            valid = true;
+
+                                                            if (valid) {
+                                                                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                                                                Office.context.document.settings.saveAsync();
+                                                            }
 
                                                             document.getElementById("message").innerHTML += `<div class="error-msg">
                                                         <i class="fa fa-times-circle"></i>
