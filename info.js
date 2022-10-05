@@ -81,75 +81,48 @@
             const keywordsInfo = await keywordsDetail.json();
     
             getInfo()
-            function getInfo() {
+
+    function getInfo() {
     
-            userSub.forEach(subscription => {
-    
-                // This condition checks if the user is not on Trial
-                if (subscription.isTrialSub === false) {
-                    document.getElementById("subscriptionRows").innerHTML += `<tr>
+        userSub.forEach(subscription => {
+            document.getElementById("subscriptionRows").innerHTML += `<tr>
                     <td  class="active-row">${subscription.name}</td>
                     <td>${subscription.subOwner}</td>
                     <td> Paid </td>
                     <td>${subscription.subStartDate} </td>
                     <td>${subscription.subEndDate} </td>
                 </tr>`
-                        checks()
+    
+                // This condition checks if the user is not on Trial
+            if (subscription.isTrialSub === false) {
+
+                    rulesInfo.forEach(rule => {
+                        document.getElementById("rulesRow").innerHTML += `<tr>
+                                        <td  class="active-row">${rule.name}</td>
+                                    </tr>`
+                        checks(rule.id)
+                    })
                 }
     
                 // This Condition will execute when user will be onTrial 
     
                 else {
-                   
-                    document.getElementById("subscriptionRows").innerHTML += `<tr>
-                    <td  class="active-row">${subscription.name}</td>
-                    <td>${subscription.subOwner}</td>
-                    <td> On Trial </td>
-                    <td>${subscription.subStartDate} </td>
-                    <td>${subscription.subEndDate} </td>
-                </tr>`
                 rulesInfo.forEach(rule => {
                     if (rule.isPaidRule === false) {
                         document.getElementById("rulesRow").innerHTML += `<tr>
-                                                <td  class="active-row">${rule.name}</td>
-                                            </tr>`
-                        detectorsInfo.forEach(detector => {
-                            if (rule.id === detector.rulesid) {
-                                document.getElementById("detectorsRow").innerHTML += `                <tr>
-                                <td  class="active-row">${detector.name}</td>
-                                <td  class="active-row">${detector.threshold}</td>
-                            </tr>`
-                                dictionaryInfo.forEach(dictionary => {
-                                    if (detector.id === dictionary.detectorsid) {
-                                        document.getElementById("dictionaryRow").innerHTML += `<tr>
-                                        <td  class="active-row">${dictionary.name}</td>
-                                    </tr>`
-                                        keywordsInfo.forEach(keyword => {
-                                            if (dictionary.id === keyword.dictionaryid) {
-                                        document.getElementById("keywordsRow").innerHTML += `<tr>
-                                        <td  class="active-row">${keyword.name}</td>
-                                        <td  class="active-row">${keyword.weight}</td>
-                                    </tr>`
-                                            }
-                                        })
-                                    }
-                                })
-
-                            }
-                        })
+                        <td  class="active-row">${rule.name}</td>
+                        </tr>`
+                        checks(rule.id)
                     }
                 })
                 }
             })
         }
     
-        async function checks() {
-            rulesInfo.forEach(rule => {
-                document.getElementById("rulesRow").innerHTML += `<tr>
-                                        <td  class="active-row">${rule.name}</td>
-                                    </tr>`
+        async function checks(ruleId) {
+           
                 detectorsInfo.forEach(detector => {
-                    if (rule.id === detector.rulesid) {
+                    if (ruleId === detector.rulesid) {
                         document.getElementById("detectorsRow").innerHTML += ` <tr>
                                     <td  class="active-row">${detector.name}</td>
                                     <td  class="active-row">${detector.threshold}</td>
@@ -172,7 +145,6 @@
     
                     }
                 })
-            })
         }
    
 

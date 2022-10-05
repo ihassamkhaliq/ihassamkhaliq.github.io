@@ -16,7 +16,7 @@
     <link href="Home.css" rel="stylesheet" type="text/css" />
     <link href="../Content/Button.css" rel="stylesheet" type="text/css" />
     <link href="../Content/MessageBanner.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- For Office UI Fabric Core, go to https://aka.ms/office-ui-fabric to learn more. -->
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.0/css/fabric.min.css">
@@ -28,15 +28,9 @@
 <!-- Office UI Fabric JS and it's components are no longer actively supported. Please see https://aka.ms/PnP-OfficeFabricReact for recommended Patterns and Practices -->
 <!-- <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css"> -->
 
-<body id="automatic">
+<body class="ms-Fabric" id="automatic">
     <div>
         <h1 id="companyName"></h1>
-        <img src="https://ihassamkhaliq.github.io/Images/logo-1-6.png" alt="Img Error">
-        <h4>Case Sensitive</h4>
-            <label class="switch">
-                <input id="toggler" type="checkbox" checked >
-                <span class="slider round"></span>
-            </label>
         <br/>
         <div id="message"></div>
         <br />
@@ -46,24 +40,23 @@
             <span class="Button-description" id="button-desc"></span>
         </button>
         <br/>
-        <button class="Button Button--primary" id="info">
-            <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
-            <span class="Button-label"><i class="fa-sharp fa-solid fa-circle-info">info</i></span>
-            <span class="Button-description" id="button-desc"></span>
-        </button>
+        <a href="info.html">
+            <i class="fa fa-circle-info"></i>
+        </a>
         <br>
 
     </div>
 
 
-
-    <div class="footer">
-        <div class="ms-Grid ms-bgColor-themeSecondary">
-            <div class="ms-Grid-row">
-                <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12"> <div class="ms-font-xl ms-fontColor-white">Contoso</div></div>
+    <a href="https://www.evolyz.com">
+        <div class="footer">
+            <div class="ms-Grid ms-bgColor-themeSecondary">
+                <div class="ms-Grid-row">
+                    <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12"> <div class="ms-font-xl ms-fontColor-white">Evolyz</div></div>
+                </div>
             </div>
         </div>
-    </div>
+    </a>
 
     <!-- Component used for displaying notifications -->
     <div class="MessageBanner" id="notification-popup">
