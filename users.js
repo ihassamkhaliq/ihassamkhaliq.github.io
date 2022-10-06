@@ -57,7 +57,9 @@
     
     const tenantDetail = await getData(`https://localhost:7018/tenant/${tenantId}`)
     const usertenant = await tenantDetail.json();
-    document.getElementById("companyName").innerHTML = `${usertenant.companyName}`
+        document.getElementById("companyName").innerHTML = `${usertenant.companyName}`
+        document.getElementById("logo").src = `https://localhost:7018/tenant/image/${tenantId}`
+    
     
     const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
     const userSub = await subscriptionDetail.json();
@@ -339,6 +341,7 @@
                                                             //const count = countOccurences(string, word.toLowerCase());  // will give the total number of counts of a word which occurs in Document
     
                                                             if (keyword.isCaseSensitive) {
+                                                               
                                                                 await Word.run(async (context) => {
     
                                                                     // Queue a command to search the document and ignore punctuation.
@@ -480,8 +483,6 @@
                     searchResults.load('font');
                     // Synchronize the document state.
                     return await context.sync().then(() => {
-    
-    
                         for (let i = 0; i < searchResults.items.length; i++) {
                             searchResults.items[i].font.color = 'purple';
                             searchResults.items[i].font.highlightColor = '#FFFF00'; //Yellow
