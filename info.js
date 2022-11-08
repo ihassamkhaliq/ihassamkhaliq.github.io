@@ -84,7 +84,7 @@
 
     function getInfo() {
     
-        userSub.forEach(subscription => {
+        userSub.sub.forEach(subscription => {
             document.getElementById("subscriptionRows").innerHTML += `<tr>
                     <td  class="active-row">${subscription.name}</td>
                     <td>${subscription.subOwner}</td>

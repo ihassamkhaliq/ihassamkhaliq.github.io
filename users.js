@@ -91,7 +91,7 @@
     
     function displayRules(){
     
-        userSub.forEach(subscription => {
+        userSub.sub.forEach(subscription => {
     
             document.getElementById("message").innerHTML = "";
     
@@ -127,7 +127,7 @@
     
     async function functionality() {
     
-        userSub.forEach(element => {
+        userSub.sub.forEach(element => {
             let valid = false;
             Office.context.document.settings.remove("Office.AutoShowTaskpaneWithDocument");
             Office.context.document.settings.saveAsync();
