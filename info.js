@@ -56,8 +56,7 @@
 
 
         const subscriptionDetail = await getData(`https://localhost:7018/tenant/${tenantId}/subscription/all`)
-        const userSub = await subscriptionDetail.json();
-    
+    const userSub = await subscriptionDetail.json();
     
             // Get all the Rules
     
@@ -96,7 +95,8 @@
                 // This condition checks if the user is not on Trial
             if (subscription.isTrialSub === false) {
 
-                    rulesInfo.forEach(rule => {
+                rulesInfo.forEach(rule => {
+                    if (rule.isPaidRule === false || rule.subscriptionid === userSub.sub[0].id)
                         document.getElementById("rulesRow").innerHTML += `<tr>
                                         <td  class="active-row">${rule.name}</td>
                                     </tr>`
