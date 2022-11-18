@@ -31,6 +31,10 @@
     const token = localStorage.getItem("JWT")
     const tenantId = localStorage.getItem("tenantId")
 
+    if (!token) {
+        location.assign('./Home.html')
+    }
+
     //Will bring Data for Get Calls
 
     async function getData(url) {
